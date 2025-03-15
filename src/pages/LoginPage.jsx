@@ -99,7 +99,7 @@ function LoginPage() {
 
     return (
         <div className="flex min-h-screen bg-right-top" style={{ backgroundImage: `url(${banner2})` }}>
-            <form onSubmit={handleLogin} className="w-full max-w-md flex flex-col items-center justify-center p-6 bg-[#F2F5E5] mx-auto rounded-lg shadow-lg">
+            <div className="w-full max-w-md flex flex-col items-center justify-center p-6 bg-[#F2F5E5] mx-auto rounded-lg shadow-lg">
                 <h1 className="text-2xl lg:text-4xl font-extrabold mb-1 text-[#889e19] text-center">
                     Inicio de Sesión
                 </h1>
@@ -118,21 +118,24 @@ function LoginPage() {
                 {error && <p className="text-red-600 font-semibold mb-3 text-center">{error}</p>}
                 {success && <p className="text-green-600 font-semibold mb-3 text-center">Inicio de sesión exitoso. Redirigiendo...</p>}
 
-                <label className="mb-2 text-lg font-black text-[#889E19]">Email</label>
-                <FormInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} texto="tucorreo@correo.uimet.edu.ve" className="w-full" />
-                {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+                <form onSubmit={handleLogin} className="">
+                    <label className="mb-2 text-lg font-black text-[#889E19]">Email</label>
+                    <FormInput type="email" value={email} onChange={(e) => setEmail(e.target.value)} texto="tucorreo@correo.uimet.edu.ve" className="w-full" />
+                    {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
 
-                <label className="mb-2 text-lg font-black text-[#889E19]">Contraseña</label>
-                <FormInput type="password" value={password} onChange={(e) => setPassword(e.target.value)} texto="••••••••" className="w-full" />
-                {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
-
-                <Button 
-                    className={`bg-[#889e19] hover:bg-[#6E7D14] text-white font-extrabold rounded-3xl border border-gray-300 
-                    w-full lg:w-[226px] h-[48px] transition-all duration-300 ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
-                    text={loading ? "Cargando..." : "Iniciar Sesión"}
-                    type="submit"
-                    disabled={loading}
-                />
+                    <label className="mb-2 text-lg font-black text-[#889E19]">Contraseña</label>
+                    <FormInput type="password" value={password} onChange={(e) => setPassword(e.target.value)} texto="••••••••" className="w-full" />
+                    {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+                    <div className="place-items-center">
+                        <Button 
+                            className={`bg-[#889e19] hover:bg-[#6E7D14]  text-white font-extrabold rounded-3xl border border-gray-300 
+                            w-full lg:w-[226px] h-[48px] ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+                            text={loading ? "Cargando..." : "Iniciar Sesión"}
+                            type="submit"
+                            disabled={loading}
+                        />
+                    </div>
+                </form>
 
                 <div className="flex flex-col w-full mt-5 text-center">
                     <p className="text-black text-sm mb-2">
@@ -150,7 +153,7 @@ function LoginPage() {
                         <button className="font-bold text-[#889E19] hover:text-[#6E7D14] transition-all ml-1">Administración</button>
                     </p>
                 </div>
-            </form>
+            </div>
         </div>
     );
 }

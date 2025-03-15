@@ -101,7 +101,7 @@ const BookingCalendar = () => {
 
             <div className="text-center mt-4">
                 <p className="text-lg">Fecha seleccionada: <span className="text-[#889e19] font-black">{date.toDateString()}</span></p>
-                
+                {message && <p className="mt-2 text-green-600 font-bold">{message}</p>}
 
                 {loading ? (
                     <p className="text-center m-2 text-[16px] text-gray-800 font-semibold animate-pulse">

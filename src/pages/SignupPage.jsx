@@ -27,6 +27,7 @@ function SignupPage() {
     const [password, setPassword] = useState('');
     const [userType, setUserType] = useState('');
     const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
     const [errors, setErrors] = useState({
         name: "",
         lastName: "",
@@ -46,7 +47,7 @@ function SignupPage() {
             setMessage("Registro con Google exitoso. Redirigiendo..."); 
             setTimeout(() => navigate("/"), 2000);
         } catch (error) {
-            setMessage("Error al autenticar con Google: " + error.message);
+            setError("Error al autenticar con Google: " + error.message);
         }
     };
 
@@ -57,12 +58,12 @@ function SignupPage() {
             setMessage("Registro con Facebook exitoso. Redirigiendo..."); 
             setTimeout(() => navigate("/"), 2000); // EDITADO
         } catch (error) {
-            setMessage("Error al autenticar con Facebook: " + error.message); 
+            setError("Error al autenticar con Facebook: " + error.message); 
         }
     };
 
     const handleInstagramSignup = () => {
-        console.log("Instagram no está soportado directamente por Firebase.");
+        setError("Instagram no está soportado directamente por Firebase.");
     };
 
     const validateForm = () => {
@@ -172,14 +173,14 @@ function SignupPage() {
             setMessage("Registro exitoso. Redirigiendo...");
             setTimeout(() => navigate("/"), 2000); // Redirige después de un pequeño retraso
         } catch (error) {
-            setMessage("Error al registrar el usuario: " + error.message);
+            setError("Error al registrar el usuario: " + error.message);
         }
     }
     
 
     return (
         <div className="flex min-h-screen bg-right-top" style={{ backgroundImage: `url(${banner2})` }}>
-            <form onSubmit={handleSignup} className="w-full max-w-md flex flex-col items-center justify-center p-6 bg-[#F2F5E5] mx-auto rounded-lg shadow-lg">
+            <div className="w-full max-w-md flex flex-col items-center justify-center p-6 bg-[#F2F5E5] mx-auto rounded-lg shadow-lg">
                 <h1 className="text-2xl lg:text-4xl font-extrabold mb-1 text-[#889e19]">Registro</h1>
                 <h2 className="text-lg lg:text-xl text-black mb-4">Regístrate con:</h2>
 
@@ -191,100 +192,98 @@ function SignupPage() {
 
                 <img src={divider} alt="Separador" className="mb-5 w-full" />
                 {message && <p className="text-center text-green-600 font-bold mb-4">{message}</p>} 
+                {error && <p className="text-center text-red-600 font-bold mb-4">{error}</p>} 
 
-                <div className="flex flex-col w-full gap-4 mb-5">
-                    <div>
-                        <label className="text-lg font-black text-[#889E19] mb-2">Nombre</label>
-                        <FormInput
-                            label="Nombre"
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            texto="Ingresa tu nombre"
-                        />
-                        {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-                    </div>
-                    <div>
-                        <label className="text-lg font-black text-[#889E19] mb-2">Apellido</label>
-                        <FormInput
-                            label="Apellido"
-                            type="text"
-                            value={lastName}
-                            onChange={(e) => setlastName(e.target.value)}
-                            texto="Ingresa tu apellido"
-                        />
-                        {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
-                    </div>
-                    <div>
-                        <label className="text-lg font-black text-[#889E19] mb-2">Número de Carnet</label>
-                        <FormInput
-                            label="Carnet"
-                            type="text"
-                            value={carnet}
-                            onChange={(e) => setCarnet(e.target.value)}
-                            texto="Ingresa tu carnet"
-                        />
-                        {errors.carnet && <p className="text-red-500 text-sm mt-1">{errors.carnet}</p>}
-                    </div>
-                </div>
-
-                <div className="w-full mb-5">
-                    <label className="text-lg font-black text-[#889E19] mb-2">Carrera</label>
-                    <FormInput
-                        label="Carrera"
-                        type="text"
-                        value={carrera}
-                        onChange={(e) => setCarrera(e.target.value)}
-                        texto="Ingresa tu carrera"
-                    />
-                    {errors.carrera && <p className="text-red-500 text-sm mt-1">{errors.carrera}</p>}
-                </div>
-
-                <div className="w-full mb-5">
-                    <label className="text-lg font-black text-[#889E19] mb-2">Email</label>
-                    <FormInput
-                        label="Email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        texto="Ingresa tu correo unimet"
-                    />
-                    {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-                </div>
-
-                <div className="w-full mb-5">
-                    <label className="text-lg font-black text-[#889E19] mb-2">Contraseña</label>
-                    <FormInput
-                        label="Contraseña"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        texto="Ingresa tu contraseña"
-                    />
-   
-                </div>
-
-                <div className="w-full mb-8">
-                    <label className="text-lg font-black text-[#889E19] mb-2">¿Eres Estudiante o Guía?</label>
-                    <div className="flex gap-4">
-                        <div className="flex-1">
-                            <Dropdown
-                                options={userOptions}
-                                selectedOption={userType}
-                                onSelect={(option) => setUserType(option)}
+                <form onSubmit={handleSignup}>
+                    <div className="flex flex-col w-full gap-4 mb-5">
+                        <div>
+                            <label className="text-lg font-black text-[#889E19] mb-2">Nombre</label>
+                            <FormInput
+                                label="Nombre"
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                texto="Ingresa tu nombre"
                             />
-                            {errors.userType && <p className="text-red-500 text-sm mt-1">{errors.userType}</p>}
+                            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
                         </div>
-                        <div className="flex-1">
-                            <Button
-                                className="bg-[#889e19] hover:bg-[#6E7D14] text-white font-extrabold rounded-3xl border border-gray-300 
-                                            w-full transition-all duration-300"
-                                text="Registrarse"
-                                type="submit"
+                        <div>
+                            <label className="text-lg font-black text-[#889E19] mb-2">Apellido</label>
+                            <FormInput
+                                label="Apellido"
+                                type="text"
+                                value={lastName}
+                                onChange={(e) => setlastName(e.target.value)}
+                                texto="Ingresa tu apellido"
                             />
+                            {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
                         </div>
+                        <div>
+                            <label className="text-lg font-black text-[#889E19] mb-2">Número de Carnet</label>
+                            <FormInput
+                                label="Carnet"
+                                type="text"
+                                value={carnet}
+                                onChange={(e) => setCarnet(e.target.value)}
+                                texto="Ingresa tu carnet"
+                            />
+                            {errors.carnet && <p className="text-red-500 text-sm mt-1">{errors.carnet}</p>}
                         </div>
-            </div>
+                    </div>
+
+                    <div className="w-full mb-5">
+                        <label className="text-lg font-black text-[#889E19] mb-2">Carrera</label>
+                        <FormInput
+                            label="Carrera"
+                            type="text"
+                            value={carrera}
+                            onChange={(e) => setCarrera(e.target.value)}
+                            texto="Ingresa tu carrera"
+                        />
+                        {errors.carrera && <p className="text-red-500 text-sm mt-1">{errors.carrera}</p>}
+                    </div>
+
+                    <div className="w-full mb-5">
+                        <label className="text-lg font-black text-[#889E19] mb-2">Email</label>
+                        <FormInput
+                            label="Email"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            texto="Ingresa tu correo unimet"
+                        />
+                        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                    </div>
+
+                    <div className="w-full mb-5">
+                        <label className="text-lg font-black text-[#889E19] mb-2">Contraseña</label>
+                        <FormInput
+                            label="Contraseña"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            texto="Ingresa tu contraseña"
+                        />
+                    </div>
+                        <label className="text-lg font-black text-[#889E19] mb-2">¿Eres Estudiante o Guía?</label>
+                            <div className="flex-1">
+                                <Dropdown
+                                    options={userOptions}
+                                    selectedOption={userType}
+                                    onSelect={(option) => setUserType(option)}
+                                />
+                                {errors.userType && <p className="text-red-500 text-sm mt-1">{errors.userType}</p>}
+                            </div>
+                            <div className="m-7 place-items-center">
+                                <Button
+                                    className="bg-[#889e19] hover:bg-[#6E7D14] text-white font-extrabold rounded-3xl border border-gray-300 
+                                                w-full lg:w-[226px] h-[48px]"
+                                    text="Registrarse"
+                                    type="submit"
+                                />
+                            </div>
+                </form>
+                
 
             {/* Enlace para iniciar sesión */}
             <p className="lg:text-[16px] md:text-[15px] text-[14px] text-black">
@@ -297,7 +296,7 @@ function SignupPage() {
                     Inicia Sesión
                 </button>
             </p>
-        </form>
+        </div>
     </div>
 );
 }
