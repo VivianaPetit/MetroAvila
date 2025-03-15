@@ -7,36 +7,36 @@ import { Destination } from "../components/Destination.jsx";
 import { db } from "../credenciales.js";
 import { collection, getDocs } from "firebase/firestore";
 
-
 function DestinationPage() {
     const [destinos, setDestinos] = useState([]);
-    const [loading, setLoading] = useState(true); 
-
+    const [loading, setLoading] = useState(true);
+    
     useEffect(() => {
-        AOS.init(); 
+        AOS.init();
 
-        const fetchDestinos = async () => {
-            try {
-                const destinosCollection = collection(db, "destinos");
-                const destinosSnapshot = await getDocs(destinosCollection);
-                const destinosList = destinosSnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-                setDestinos(destinosList);
-            } catch (error) {
-                console.error("Error fetching destinos: ", error);
-            } finally {
-                setLoading(false); 
-            }
-        };
 
-        fetchDestinos();
-    }, []);
+    const fetchDestinos = async () => {
+        try {
+            const destinosCollection = collection(db, "destinos");
+            const destinosSnapshot = await getDocs(destinosCollection);
+            const destinosList = destinosSnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            setDestinos(destinosList);
+        } catch (error) {
+            console.error("Error fetching destinos: ", error);
+           
+        } finally {
+            setLoading(false);
+        }
+    };
+    fetchDestinos();
+}, []);
 
     useEffect(() => {
         if (!loading) {
-            AOS.refresh(); 
+            AOS.refresh();
         }
     }, [destinos, loading]);
 
@@ -50,8 +50,9 @@ function DestinationPage() {
                 </h1>
 
                 {loading ? (
-                    <p className="text-center text-[18px] text-gray-800 font-semibold animate-pulse ">Cargando destinos...</p>
+                    <p className="text-center text-[18px] text-gray-800 font-semibold animate-pulse">Cargando destinos...</p>
                 ) : (
+
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {destinos.map((destino) => (
                             <div key={destino.id} data-aos="fade-up" data-aos-duration="1000">
