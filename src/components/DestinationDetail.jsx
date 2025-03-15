@@ -1,4 +1,3 @@
-// DestinationDetail.jsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../credenciales.js"; 
@@ -8,6 +7,7 @@ const DestinationDetail = () => {
     const { id } = useParams(); 
     const [destino, setDestino] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null); 
 
     useEffect(() => {
         const fetchDestino = async () => {
@@ -21,6 +21,7 @@ const DestinationDetail = () => {
                 }
             } catch (error) {
                 console.error("Error fetching destino: ", error);
+                setError("Error al cargar el destino. Intenta nuevamente más tarde."); 
             } finally {
                 setLoading(false);
             }
@@ -33,19 +34,36 @@ const DestinationDetail = () => {
         return <p>Cargando destino...</p>;
     }
 
+    if (error) {
+        return <p className="text-red-600 font-semibold">{error}</p>; 
+    }
+
     if (!destino) {
         return <p>Destino no encontrado</p>;
     }
 
     return (
-        <div className="p-8">
-            <h1 className="text-4xl font-bold">{destino.nombre}</h1>
-            <img src={destino.foto} alt={destino.nombre} className="w-full h-64 object-cover rounded" />
-            <p className="mt-4">Calificación: {destino.calificacion}</p>
-            <p>Dificultad: {destino.dificultad}</p>
-            <p>Tiempo estimado: {destino.tiempo}</p>
-            <p>{destino.descripcion}</p> 
-        </div>
+        <section className="self-center mt-14 w-full max-w-[1305px] max-md:mt-10 max-md:max-w-full">
+            <div className="flex gap-5 max-md:flex-col">
+                <article className="w-[64%] max-md:ml-0 max-md:w-full">
+                    <div className="flex flex-col self-stretch my-auto max-md:mt-10 max-md:max-w-full">
+                        <h1 className="self-start text-6xl font-black leading-none text-lime-600 max-md:max-w-full max-md:text-4xl">
+                            {destino.header} {/* Usar el campo header */}
+                        </h1>
+                        <p className="mt-6 text-2xl leading-6 text-black max-md:max-w-full">
+                            {destino.descripcion}
+                        </p>
+                    </div>
+                </article>
+                <aside className="ml-5 w-[36%] max-md:ml-0 max-md:w-full">
+                    <img
+                        src={destino.foto} 
+                        alt={destino.nombre}
+                        className="object-contain grow w-full rounded-xl aspect-[1.46] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] max-md:mt-10 max-md:max-w-full"
+                    />
+                </aside>
+            </div>
+        </section>
     );
 };
 

@@ -14,3 +14,5 @@ export const Destination = ({ destino }) => {
         </Link>
     );
 };
+
+
