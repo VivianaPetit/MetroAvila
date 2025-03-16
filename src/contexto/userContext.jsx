@@ -20,11 +20,12 @@ export const UserProvider = ({ children }) => {
                 if (userDoc.exists()) {
                     const userData = userDoc.data();
                     setUser({
-                        name: userData.nombre, // Nombre desde Firestore
-                        lastname: userData.apellido, // Apellido desde Firestore
+                        name: userData.nombre, 
+                        lastname: userData.apellido, 
                         carrera: userData.carrera,
-                        email: currentUser.email, // Email desde Auth
-                        photo: userData.foto || currentUser.photoURL, // Foto desde Firestore o Auth
+                        userType: userData.userType,
+                        email: currentUser.email, 
+                        photo: userData.foto || currentUser.photoURL, 
                     });
                 } else {
                     
