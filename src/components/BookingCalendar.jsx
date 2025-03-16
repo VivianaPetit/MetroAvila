@@ -4,6 +4,7 @@ import "react-calendar/dist/Calendar.css";
 import { db } from "../credenciales"; 
 import { collection, getDocs, doc, setDoc, getDoc } from "firebase/firestore";
 import Button from "./Button";
+import { useUser } from "../contexto/userContext";
 
 
 const BookingCalendar = () => {
@@ -12,6 +13,7 @@ const BookingCalendar = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
     const [destinos, setDestinos] = useState({}); 
+    const { user } = useUser(); // info del usuario autenticado
 
 
     useEffect(() => {
@@ -42,6 +44,13 @@ const BookingCalendar = () => {
         setLoading(false);
     };
 
+    const handleReservar = (activityId, currentCupos) => {
+        if (user) {
+          {handleBooking(activityId, currentCupos)}
+        } else {
+          alert('Por favor, inicie sesión para realizar una reserva.');
+        }
+      };
 
     const handleBooking = async (activityId, currentCupos) => {
       if (currentCupos > 0) {
@@ -120,7 +129,7 @@ const BookingCalendar = () => {
                             <p><strong>Permisos requeridos:</strong> {activity.requierePermisos ? "Sí" : "No"}</p>
 
                             <Button
-                                onClick={() => handleBooking(activity.id, activity.cupos)}
+                                onClick={() => handleReservar(activity.id, activity.cupos)}
                                 disabled={!activity.disponible || activity.cupos === 0}
                                 className={`mt-4 px-6 py-2 font-bold rounded-2xl
                                     ${activity.cupos === 0 ? "bg-gray-400 cursor-not-allowed text-gray-700" : "bg-[#889e19] hover:bg-[#6E7D14] cursor-pointer text-white"}

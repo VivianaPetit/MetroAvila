@@ -4,7 +4,7 @@ import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { app } from "../credenciales.js"; 
 
 const auth = getAuth(app);
-const db = getFirestore(app); // Inicializa Firestore
+const db = getFirestore(app); 
 
 const UserContext = createContext(null);
 

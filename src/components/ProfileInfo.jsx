@@ -15,7 +15,7 @@ function ProfileInfo() {
         />
       </div>
       <h1 className="mb-2.5 text-2xl font-semibold">{user.name ? `${user.name} ${user.lastname || ""}` : "Usuario"}</h1>
-      <p className="mb-8 text-stone-500">{user.carrera ? `${user.carrera} ${user.apellido || ""}` : user.userType}</p>
+      <p className="mb-8 text-stone-500">{user.carrera ? `${user.carrera} ${user.apellido || ""}` : user.email}</p>
       
       <div className="flex gap-5 mb-10 max-md:flex-col">
         <StatCard title="4/8" description="Rutas Realizadas" />
