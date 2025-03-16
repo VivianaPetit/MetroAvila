@@ -8,16 +8,19 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Star, Clock, Mountain, MapPin } from "lucide-react";
 import L from "leaflet";
+import iconRetina from "../assets/icono-mapa.png";
+import iconUrl from "../assets/icono-mapa2.png";
+import shadowUrl from "../assets/sombra-mapa.png";
+
 
 delete L.Icon.Default.prototype._getIconUrl;
+
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+  iconRetinaUrl: iconRetina,
+  iconUrl: iconUrl,
+  shadowUrl: shadowUrl,
 });
+
 
 const DestinationDetail = () => {
   const { id } = useParams();
@@ -102,7 +105,7 @@ const DestinationDetail = () => {
       <section className="flex-grow px-6 md:px-12 py-10 max-w-6xl mx-auto">
         <div className="grid md:grid-cols-2 gap-10 mb-12">
           <div className="flex flex-col justify-center">
-            <h2 className="text-3xl font-semibold text-lime-600 mb-6">
+            <h2 className="text-3xl font-semibold text-[#889e19] mb-6">
               Sobre el destino
             </h2>
             <p className="text-lg text-gray-700 leading-relaxed">
