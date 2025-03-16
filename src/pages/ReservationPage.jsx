@@ -21,7 +21,7 @@ function ReservationPage() {
         </div>
         <div className="mt-6">
           <button 
-          className="bg-[#ffc439] text-[#003087] font-bold py-2 px-4 rounded flex items-center"
+          className="bg-[#ffc439] text-[#003087] font-bold py-2 px-4 rounded flex items-center cursor-pointer"
             onClick={handlePayPalClick}
             >
             <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="PayPal" className="h-6 mr-2"/>
