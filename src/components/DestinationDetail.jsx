@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { db } from "../credenciales.js";
 import { doc, getDoc } from "firebase/firestore";
-import { Footer } from "../components/Footer"
-import { Header } from "../components/Header"
+import { Footer } from "../components/Footer";
+import { Header } from "../components/Header";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Star, Clock, Mountain, MapPin } from "lucide-react";
@@ -12,7 +12,6 @@ import iconRetina from "../assets/icono-mapa.png";
 import iconUrl from "../assets/icono-mapa2.png";
 import shadowUrl from "../assets/sombra-mapa.png";
 
-
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
@@ -20,7 +19,6 @@ L.Icon.Default.mergeOptions({
   iconUrl: iconUrl,
   shadowUrl: shadowUrl,
 });
-
 
 const DestinationDetail = () => {
   const { id } = useParams();
@@ -158,6 +156,15 @@ const DestinationDetail = () => {
           </div>
         </div>
       </section>
+
+      {/* Texto de reserva */}
+      <div className="text-center py-6">
+  <p className="text-xl font-semibold">
+    <Link to="/reservation" className="text-[#FF7E00]">
+      RESERVA PARA NUESTRA PRÓXIMA SUBIDA
+    </Link>
+  </p>
+</div>
 
       <Footer />
     </div>
