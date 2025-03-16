@@ -116,8 +116,8 @@ function SignupPage() {
         if (!email.trim()) {
             newErrors.email = "El email es obligatorio.";
             isValid = false;
-        } else if (!/\S+@\S+\.\S+/.test(email)) {
-            newErrors.email = "El email no es válido.";
+        } else if (!/^[a-zA-Z0-9._%+-]+@correo\.unimet\.edu\.ve$/.test(email)) {
+            newErrors.email = "El email no es válido. Debe ser tu correo UNIMET";
             isValid = false;
         }
 

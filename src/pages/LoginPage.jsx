@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from "firebase/auth";
 import SocialAuthButton from "../components/SocialAuthButton";
@@ -33,7 +32,7 @@ function LoginPage() {
         if (!email.trim()) {
             newErrors.email = "El email es obligatorio.";
             isValid = false;
-        } else if (!/\S+@\S+\.\S+/.test(email)) {
+        } else if (!/^[a-zA-Z0-9._%+-]+@correo\.unimet\.edu\.ve$/.test(email) ) {
             newErrors.email = "El email no es válido.";
             isValid = false;
         }
@@ -128,7 +127,7 @@ function LoginPage() {
                     {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
                     <div className="place-items-center">
                         <Button 
-                            className={`bg-[#889e19] hover:bg-[#6E7D14]  text-white font-extrabold rounded-3xl border border-gray-300 
+                            className={`bg-[#889e19] hover:bg-[#6E7D14] cursor-pointer text-white font-extrabold rounded-3xl border border-gray-300 
                             w-full lg:w-[226px] h-[48px] ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
                             text={loading ? "Cargando..." : "Iniciar Sesión"}
                             type="submit"
@@ -142,7 +141,7 @@ function LoginPage() {
                         ¿Aún no tienes cuenta? 
                         <button 
                             onClick={() => navigate("/signup")} 
-                            className="font-bold text-[#FF7E00] hover:text-[#ff5100] transition-all ml-1"
+                            className="font-bold text-[#FF7E00] cursor-pointer hover:text-[#ff5100] transition-all ml-1"
                             aria-label="Regístrate"
                         >
                             Regístrate
@@ -150,7 +149,7 @@ function LoginPage() {
                     </p>
                     <p className="text-black text-sm">
                         Ir al panel de 
-                        <button className="font-bold text-[#889E19] hover:text-[#6E7D14] transition-all ml-1">Administración</button>
+                        <button className="font-bold text-[#889E19] cursor-pointer hover:text-[#6E7D14] transition-all ml-1">Administración</button>
                     </p>
                 </div>
             </div>
