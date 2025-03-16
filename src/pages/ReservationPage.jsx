@@ -18,15 +18,6 @@ function ReservationPage() {
         </h1>
         <BookingCalendar/>
         <div className="mt-6">
-        <label htmlFor="destination" className="block text-lg font-medium text-gray-700 mb-2">
-            ¿A qué destino deseas ir?
-          </label>
-          <select id="destination" name="destination" className="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#889e19] focus:border-[#889e19]">
-            <option value="">Selecciona una opción</option>
-            <option value="destino1">Destino 1</option>
-            <option value="destino2">Destino 2</option>
-            <option value="destino3">Destino 3</option>
-          </select>
         </div>
         <div className="mt-6">
           <button 
