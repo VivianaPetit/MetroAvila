@@ -116,7 +116,7 @@ const DestinationDetail = () => {
               <div className="flex items-center gap-3">
                 <Star className="text-yellow-500" />
                 <span className="text-gray-800 font-medium">
-                  Calificación: {destino.calificación} / 5
+                  Calificación: {destino.calificacion} / 5
                 </span>
               </div>
               <div className="flex items-center gap-3">
