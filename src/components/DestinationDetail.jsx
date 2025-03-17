@@ -99,7 +99,7 @@ const DestinationDetail = () => {
           alt={destino.nombre}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="absolute inset-0 bg-opacity-50 flex items-center justify-center">
           <h1 className="text-white text-4xl md:text-6xl font-bold text-center px-4" data-aos="fade-down">
             {destino.nombre}
           </h1>
@@ -164,9 +164,9 @@ const DestinationDetail = () => {
       </section>
 
       <div className="text-center py-6" data-aos="fade-up">
-        <p className="text-xl font-semibold">
-          <Link to="/reservation" className="text-[#FF7E00]">
-            RESERVA PARA NUESTRA PRÓXIMA SUBIDA
+        <p className="font-extrabold text-2xl animate-bounce">
+          <Link to="/reservation" className="text-[#FF7E00] ">
+            RESERVA AQUÍ PARA NUESTRA PRÓXIMA SUBIDA
           </Link>
         </p>
       </div>
