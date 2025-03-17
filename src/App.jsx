@@ -6,6 +6,7 @@ import DestinationPage from "./pages/DestinationPage.jsx";
 import ReservationPage from "./pages/ReservationPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import DestinationDetail from "./components/DestinationDetail"; 
+import GalleryPage from "./pages/GalleryPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/reservation" element={<ReservationPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/destino/:id" element={<DestinationDetail />} /> 
+        <Route path="/galeria" element={<GalleryPage />} />
       </Routes>
     </Router>
   );
