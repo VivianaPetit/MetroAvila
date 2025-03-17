@@ -9,6 +9,12 @@ const GalleryPage = () => {
     { src: 'path/to/photo1.jpg', alt: 'Photo 1' },
     { src: 'path/to/photo2.jpg', alt: 'Photo 2' },
     { src: 'path/to/photo3.jpg', alt: 'Photo 3' },
+    { src: 'path/to/photo4.jpg', alt: 'Photo 4' },
+    { src: 'path/to/photo5.jpg', alt: 'Photo 5' },
+    { src: 'path/to/photo6.jpg', alt: 'Photo 6' },
+    { src: 'path/to/photo7.jpg', alt: 'Photo 7' },
+    { src: 'path/to/photo8.jpg', alt: 'Photo 8' },
+    
     // Agrega más fotos según sea necesario
   ];
 
@@ -19,6 +25,9 @@ const GalleryPage = () => {
         <header className="gallery-header text-center mb-6">
           <h1 className="text-3xl text-[#889e19] font-bold">GALERÍA</h1>
         </header>
+        <div className="flex items-center justify-center bg-[#d9e4b1] rounded-lg shadow-md cursor-pointer hover:bg-[#c8d49a] transition-colors py-[1rem] w-[24rem] my-[1rem]">
+          <span className="text-[#889e19] text-xl font-bold">+ &nbsp; Agrega tu foto!</span>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {photos.map((photo, index) => (
             <div key={index} className="relative group">
@@ -32,9 +41,6 @@ const GalleryPage = () => {
               </div>
             </div>
           ))}
-          <div className="flex items-center justify-center bg-[#d9e4b1] rounded-lg shadow-md cursor-pointer hover:bg-[#c8d49a] transition-colors">
-            <span className="text-[#889e19] text-xl font-bold">+<br />Agrega tu foto!</span>
-          </div>
         </div>
       </main>
       <Footer />
