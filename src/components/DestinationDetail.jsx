@@ -11,6 +11,8 @@ import L from "leaflet";
 import iconRetina from "../assets/icono-mapa.png";
 import iconUrl from "../assets/icono-mapa2.png";
 import shadowUrl from "../assets/sombra-mapa.png";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -25,6 +27,10 @@ const DestinationDetail = () => {
   const [destino, setDestino] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    AOS.init({ duration: 1500, once: true, easing: 'ease-in-out' });
+  }, []);
 
   useEffect(() => {
     const fetchDestino = async () => {
@@ -87,49 +93,49 @@ const DestinationDetail = () => {
     <div className="flex flex-col min-h-screen">
       <Header />
 
-      <div className="relative w-full h-[300px] md:h-[450px] lg:h-[550px] overflow-hidden">
+      <div className="relative w-full h-[300px] md:h-[450px] lg:h-[550px] overflow-hidden" data-aos="fade-up">
         <img
           src={destino.header}
           alt={destino.nombre}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <h1 className="text-white text-4xl md:text-6xl font-bold text-center px-4">
+          <h1 className="text-white text-4xl md:text-6xl font-bold text-center px-4" data-aos="fade-down">
             {destino.nombre}
           </h1>
         </div>
       </div>
 
-      <section className="flex-grow px-6 md:px-12 py-10 max-w-6xl mx-auto">
+      <section className="flex-grow px-6 md:px-12 py-10 max-w-6xl mx-auto" data-aos="fade-up">
         <div className="grid md:grid-cols-2 gap-10 mb-12">
           <div className="flex flex-col justify-center">
-            <h2 className="text-3xl font-semibold text-[#889e19] mb-6">
+            <h2 className="text-3xl font-semibold text-[#889e19] mb-6" data-aos="fade-right">
               Sobre el destino
             </h2>
-            <p className="text-lg text-gray-700 leading-relaxed">
+            <p className="text-lg text-gray-700 leading-relaxed" data-aos="fade-left">
               {destino.descripcion}
             </p>
 
             <div className="mt-8 space-y-4">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3" data-aos="fade-up">
                 <Star className="text-yellow-500" />
                 <span className="text-gray-800 font-medium">
                   Calificación: {destino.calificacion} / 5
                 </span>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3" data-aos="fade-up" data-aos-delay="100">
                 <Mountain className="text-purple-600" />
                 <span className="text-gray-800 font-medium">
                   Dificultad: {destino.dificultad}
                 </span>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3" data-aos="fade-up" data-aos-delay="200">
                 <Clock className="text-blue-500" />
                 <span className="text-gray-800 font-medium">
                   Tiempo estimado: {destino.tiempo}
                 </span>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3" data-aos="fade-up" data-aos-delay="300">
                 <MapPin className="text-red-500" />
                 <span className="text-gray-800 font-medium">
                   Dirección: {destino.direccion}
@@ -138,7 +144,7 @@ const DestinationDetail = () => {
             </div>
           </div>
 
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center" data-aos="zoom-in">
             <MapContainer
               center={[destino.latitud, destino.longitud]}
               zoom={13}
@@ -157,14 +163,13 @@ const DestinationDetail = () => {
         </div>
       </section>
 
-      {/* Texto de reserva */}
-      <div className="text-center py-6">
-  <p className="text-xl font-semibold">
-    <Link to="/reservation" className="text-[#FF7E00]">
-      RESERVA PARA NUESTRA PRÓXIMA SUBIDA
-    </Link>
-  </p>
-</div>
+      <div className="text-center py-6" data-aos="fade-up">
+        <p className="text-xl font-semibold">
+          <Link to="/reservation" className="text-[#FF7E00]">
+            RESERVA PARA NUESTRA PRÓXIMA SUBIDA
+          </Link>
+        </p>
+      </div>
 
       <Footer />
     </div>
