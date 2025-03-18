@@ -1,11 +1,12 @@
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
 import { useNavigate } from "react-router"
-
+import { useState } from "react" // Importamos useState para manejar el estado
 
 
 
 const PaypalButtonComponent = () => {
     const navigate = useNavigate()
+    const [isLoggedIn, setIsLoggedIn] = useState(false) // Estado para verificar si el usuario está autenticado
 
 
     const initialOptions = {
@@ -14,8 +15,13 @@ const PaypalButtonComponent = () => {
         intent: "capture",
     }
 
-
-
+    const handleButtonClick = () => {
+        if (!isLoggedIn) {
+            alert("Debes iniciar sesión antes de continuar.")
+            return false // Evita que se procese el pago si no está autenticado
+        }
+        return true
+    }
 
 
     const createOrder = (data, actions) => {
