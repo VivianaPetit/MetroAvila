@@ -9,12 +9,12 @@ import './GalleryPage';
 
 const GalleryPage = () => {
   const fileInputRef = useRef(null);
-  const [photos, setPhotos] = useState([]);
-  const [preview, setPreview] = useState(null);
-  const [uploading, setUploading] = useState(false);
-  const [user, setUser ] = useState(null); 
+  const [photos, setPhotos] = useState([]); // Estado para almacenar las fotos
+  const [preview, setPreview] = useState(null); // Estado para la vista previa de la imagen
+  const [uploading, setUploading] = useState(false); // Estado para indicar si se está subiendo una imagen
+  const [user, setUser ] = useState(null); // Estado para almacenar el usuario autenticado
 
-
+  // Verificar el estado de autenticación del usuario
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser ) => {
       setUser (currentUser );
@@ -22,6 +22,7 @@ const GalleryPage = () => {
     return () => unsubscribe();
   }, []);
 
+  // Cargar fotos existentes desde Firestore al montar el componente
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
@@ -31,7 +32,7 @@ const GalleryPage = () => {
           src: doc.data().url,
           alt: doc.data().name,
         }));
-        setPhotos(photoList);
+        setPhotos(photoList); // Establecer las fotos en el estado
       } catch (error) {
         console.error("Error cargando las fotos:", error);
       }
@@ -39,6 +40,7 @@ const GalleryPage = () => {
     fetchPhotos();
   }, []);
 
+  // Manejar el clic en el botón para abrir el selector de archivos
   const handleClick = () => {
     if (!user) {
       alert('Debes iniciar sesión para subir una foto.');
@@ -47,18 +49,19 @@ const GalleryPage = () => {
     fileInputRef.current.click();
   };
 
+  // Manejar el cambio de archivo
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPreview(reader.result);
+        setPreview(reader.result); // Establecer la vista previa de la imagen
       };
       reader.readAsDataURL(file);
     }
   };
 
-
+  // Manejar la subida de la imagen
   const handleUpload = async () => {
     if (!user) {
       alert('Debes iniciar sesión para subir una foto.');
@@ -68,24 +71,26 @@ const GalleryPage = () => {
     const file = fileInputRef.current.files[0];
     if (!file) return;
 
-    setUploading(true);
+    setUploading(true); // Indicar que se está subiendo una imagen
 
     try {
       const storageRef = ref(storage, `gallery/${Date.now()}-${file.name}`);
-      await uploadBytes(storageRef, file);
-      const downloadURL = await getDownloadURL(storageRef);
+      await uploadBytes(storageRef, file); // Subir la imagen a Firebase Storage
+      const downloadURL = await getDownloadURL(storageRef); // Obtener la URL de descarga
 
+      // Guardar la URL en Firestore
       await addDoc(collection(db, "galleryPhotos"), {
         url: downloadURL,
         name: file.name,
       });
 
+      // Actualizar el estado de las fotos
       setPhotos(prevPhotos => [
         ...prevPhotos,
         { id: Date.now(), src: downloadURL, alt: file.name } 
       ]);
 
-    
+      // Limpiar estados
       setPreview(null);
       fileInputRef.current.value = null;
       alert('¡Imagen subida con éxito!');
@@ -93,7 +98,7 @@ const GalleryPage = () => {
       console.error('Error al subir la imagen:', error);
       alert('Error al subir la imagen');
     } finally {
-      setUploading(false);
+      setUploading(false); // Indicar que la subida ha terminado
     }
   };
 
@@ -119,7 +124,7 @@ const GalleryPage = () => {
           accept="image/*"
           ref={fileInputRef}
           onChange={handleFileChange}
-          style={{ display: 'none' }}
+          style={{ display: 'none' }} 
         />
 
         {preview && (
@@ -135,7 +140,6 @@ const GalleryPage = () => {
           </div>
         )}
 
-    
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
           {photos.map((photo) => (
             <div key={photo.id} className="relative group">

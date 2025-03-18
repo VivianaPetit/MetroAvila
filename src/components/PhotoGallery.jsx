@@ -1,27 +1,61 @@
-import React, { useState, useRef } from "react";
-import photo from "/humboldt.png"; 
+import React, { useState, useRef, useEffect } from "react";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { collection, addDoc, getDocs } from "firebase/firestore";
+import { storage, db } from '../credenciales'; 
 import PhotoItem from "../components/PhotoItem";
 
 function PhotoGallery() {
-  const [photos, setPhotos] = useState([photo]); 
+  const [photos, setPhotos] = useState([]); 
   const [preview, setPreview] = useState(null); 
   const fileInputRef = useRef(null); 
 
+
+  useEffect(() => {
+    const fetchPhotos = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "galleryPhotos"));
+        const photoList = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          src: doc.data().url,
+          alt: doc.data().name,
+        }));
+        setPhotos(photoList); 
+      } catch (error) {
+        console.error("Error cargando las fotos:", error);
+      }
+    };
+    fetchPhotos();
+  }, []);
+
   const handleAddPhoto = () => {
-    
     fileInputRef.current.click();
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        
-        setPreview(reader.result);
-        setPhotos((prevPhotos) => [...prevPhotos, reader.result]);
+        setPreview(reader.result); 
       };
       reader.readAsDataURL(file);
+
+     
+      const storageRef = ref(storage, `gallery/${Date.now()}-${file.name}`);
+      await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+
+      
+      await addDoc(collection(db, "galleryPhotos"), {
+        url: downloadURL,
+        name: file.name,
+      });
+
+     
+      setPhotos(prevPhotos => [
+        ...prevPhotos,
+        { id: Date.now(), src: downloadURL, alt: file.name }
+      ]);
     }
   };
 
@@ -39,7 +73,6 @@ function PhotoGallery() {
         </button>
       </div>
 
-     
       <input
         type="file"
         accept="image/*"
@@ -48,7 +81,6 @@ function PhotoGallery() {
         style={{ display: 'none' }} 
       />
 
-     
       {preview && (
         <div className="mb-4">
           <img src={preview} alt="Preview" className="w-full h-auto rounded-lg" />
@@ -56,8 +88,8 @@ function PhotoGallery() {
       )}
 
       <div className="grid gap-5 grid-cols-[repeat(3,1fr)] max-md:grid-cols-[repeat(2,1fr)] max-sm:grid-cols-[1fr]">
-        {photos.map((src, index) => (
-          <PhotoItem key={index} src={src} alt={`Photo ${index + 1}`} />
+        {photos.map((photo) => (
+          <PhotoItem key={photo.id} src={photo.src} alt={photo.alt} />
         ))}
       </div>
     </section>
