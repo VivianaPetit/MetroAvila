@@ -43,7 +43,7 @@ const ForumPage = () => {
         try {
             await addDoc(collection(db, 'forumMessages'), {
                 text: newMessage,
-                userName: user.displayName || user.email, // Usa el nombre del usuario o el correo si no está disponible
+                user: user.email,
                 profileImage: user.photoURL, 
                 timestamp: new Date(),
             });
@@ -77,7 +77,7 @@ const ForumPage = () => {
                 )}
 
                 <div className="text-left py-6" data-aos="fade-up">
-                    <p className="font-extrabold text-2xl text-[#FF7E00]">Mensajes</p>
+                    <p className="font-extrabold text-2xl text-[#FF7E00] ">Mensajes</p>
                 </div>
 
                 <div className="mt-6" data-aos="fade-up">
@@ -88,7 +88,7 @@ const ForumPage = () => {
                                     <img src={message.profileImage} alt="Perfil" className="w-10 h-10 rounded-full mr-3" />
                                 )}
                                 <div>
-                                    <strong className="text-[#889e19]">{message.userName}:</strong> <span>{message.text}</span>
+                                    <strong className="text-[#889e19]">{message.user}:</strong> <span>{message.text}</span>
                                 </div>
                             </li>
                         ))}
