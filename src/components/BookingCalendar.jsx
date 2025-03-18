@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { db } from "../credenciales"; 
-import { collection, getDocs, doc, setDoc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, setDoc, getDoc, addDoc } from "firebase/firestore"; // Importa addDoc
 import Button from "./Button";
 import { useUser } from "../contexto/userContext";
 import { useNavigate } from "react-router-dom";
@@ -66,7 +66,8 @@ const BookingCalendar = () => {
                   )
               );
 
-
+               // Llama a la función para registrar la reserva
+                await registerReservation(activityId);
 
               setMessage("¡Reserva realizada con éxito!");
           } catch (error) {
@@ -78,6 +79,23 @@ const BookingCalendar = () => {
       }
   };
 
+  // Nueva función para registrar la reserva
+const registerReservation = async (activityId) => {
+    try {
+        const reservationData = {
+            userId: user.uid, // ID del usuario autenticado
+            activityId: activityId, // ID de la actividad reservada
+            date: new Date().toISOString(), // Fecha de la reserva
+        };
+
+        // Agrega el registro a la colección "reservas"
+        await addDoc(collection(db, "reservas"), reservationData);
+
+        console.log("Reserva registrada con éxito:", reservationData);
+    } catch (error) {
+        console.error("Error al registrar la reserva:", error);
+    }
+  };
 
   useEffect(() => {
       const obtenerNombreDestino = async () => {
