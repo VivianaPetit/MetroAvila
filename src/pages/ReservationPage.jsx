@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import BookingCalendar from '../components/BookingCalendar';
-import { auth } from '../credenciales'; // Actualiza la ruta de importación
+import { auth } from '../credenciales'; 
+import PaypalButton from "../components/PaypalButton";
 
 
 function ReservationPage() {
@@ -25,6 +26,7 @@ function ReservationPage() {
       alert('Por favor, inicie sesión para realizar una contribución.');
     }
   };
+
   return (
     <div className='bg-[#F2F5E5] min-h-screen'>
       <Header />
@@ -34,14 +36,8 @@ function ReservationPage() {
             Reservar
         </h1>
         <BookingCalendar/>
-        <div className="mt-6">
-          <button 
-          className="bg-[#ffc439] text-[#003087] font-bold py-2 px-4 rounded flex items-center cursor-pointer"
-            onClick={handlePayPalClick}
-            >
-            <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="PayPal" className="h-6 mr-2"/>
-            Contribución
-          </button>
+        <div className="mt-5 place-items-center">
+          <PaypalButton />
         </div>
     </main>
 

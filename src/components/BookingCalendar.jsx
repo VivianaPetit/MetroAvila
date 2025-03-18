@@ -5,6 +5,7 @@ import { db } from "../credenciales";
 import { collection, getDocs, doc, setDoc, getDoc } from "firebase/firestore";
 import Button from "./Button";
 import { useUser } from "../contexto/userContext";
+import { useNavigate } from "react-router-dom";
 
 
 const BookingCalendar = () => {
@@ -14,6 +15,7 @@ const BookingCalendar = () => {
     const [message, setMessage] = useState("");
     const [destinos, setDestinos] = useState({}); 
     const { user } = useUser(); // info del usuario autenticado
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -48,7 +50,7 @@ const BookingCalendar = () => {
         if (user) {
           {handleBooking(activityId, currentCupos)}
         } else {
-          alert('Por favor, inicie sesión para realizar una reserva.');
+            navigate("/login");
         }
       };
 
@@ -63,6 +65,9 @@ const BookingCalendar = () => {
                       act.id === activityId ? { ...act, cupos: act.cupos - 1 } : act
                   )
               );
+
+
+
               setMessage("¡Reserva realizada con éxito!");
           } catch (error) {
               console.error("Error al reservar:", error);

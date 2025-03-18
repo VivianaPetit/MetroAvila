@@ -8,6 +8,7 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 import DestinationDetail from "./components/DestinationDetail"; 
 import GalleryPage from "./pages/GalleryPage";
 import ForumPage from "./pages/ForumPage";
+import SuccessfulTransaction from "./components/SuccessfulTransaction.jsx";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/destino/:id" element={<DestinationDetail />} /> 
         <Route path="/galeria" element={<GalleryPage />} />
         <Route path="/foro" element={<ForumPage />} />
+        <Route path="/exitosa" element={<SuccessfulTransaction />} />
       </Routes>
     </Router>
   );
