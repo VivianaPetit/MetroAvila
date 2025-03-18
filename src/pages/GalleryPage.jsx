@@ -12,22 +12,22 @@ const GalleryPage = () => {
   const [photos, setPhotos] = useState([]);
   const [preview, setPreview] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [user, setUser] = useState(null); 
+  const [user, setUser ] = useState(null); 
 
-  // Validar sesión
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, (currentUser ) => {
+      setUser (currentUser );
     });
     return () => unsubscribe();
   }, []);
 
-  // Cargar fotos existentes desde Firestore
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "galleryPhotos"));
         const photoList = querySnapshot.docs.map(doc => ({
+          id: doc.id, 
           src: doc.data().url,
           alt: doc.data().name,
         }));
@@ -39,7 +39,6 @@ const GalleryPage = () => {
     fetchPhotos();
   }, []);
 
-  // Click en el botón para abrir galería
   const handleClick = () => {
     if (!user) {
       alert('Debes iniciar sesión para subir una foto.');
@@ -48,7 +47,6 @@ const GalleryPage = () => {
     fileInputRef.current.click();
   };
 
-  // Preview imagen seleccionada
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -60,7 +58,7 @@ const GalleryPage = () => {
     }
   };
 
-  // Subir imagen
+
   const handleUpload = async () => {
     if (!user) {
       alert('Debes iniciar sesión para subir una foto.');
@@ -84,10 +82,10 @@ const GalleryPage = () => {
 
       setPhotos(prevPhotos => [
         ...prevPhotos,
-        { src: downloadURL, alt: file.name }
+        { id: Date.now(), src: downloadURL, alt: file.name } 
       ]);
 
-      // Limpiar estados
+    
       setPreview(null);
       fileInputRef.current.value = null;
       alert('¡Imagen subida con éxito!');
@@ -107,7 +105,6 @@ const GalleryPage = () => {
           <h1 className="text-3xl text-[#889e19] font-bold text-left">GALERÍA</h1>
         </header>
 
-        {/* Botón agregar */}
         <div
           className="flex items-center justify-center bg-[#d9e4b1] rounded-lg shadow-md cursor-pointer hover:bg-[#c8d49a] transition-colors py-[1rem] w-[24rem] my-[1rem]"
           onClick={handleClick}
@@ -117,7 +114,6 @@ const GalleryPage = () => {
           </span>
         </div>
 
-        {/* Input oculto */}
         <input
           type="file"
           accept="image/*"
@@ -126,7 +122,6 @@ const GalleryPage = () => {
           style={{ display: 'none' }}
         />
 
-        {/* Preview */}
         {preview && (
           <div className="flex flex-col items-center my-4">
             <img src={preview} alt="Preview" className="w-64 h-64 object-cover rounded-lg shadow-md mb-4" />
@@ -140,10 +135,10 @@ const GalleryPage = () => {
           </div>
         )}
 
-        {/* Galería */}
+    
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
-          {photos.map((photo, index) => (
-            <div key={index} className="relative group">
+          {photos.map((photo) => (
+            <div key={photo.id} className="relative group">
               <img
                 src={photo.src}
                 alt={photo.alt}
