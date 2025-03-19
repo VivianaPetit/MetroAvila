@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 
 function Button({divClassName, className, text, onClick, type, disable} ) {
