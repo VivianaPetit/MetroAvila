@@ -22,7 +22,7 @@ const GalleryPage = () => {
     return () => unsubscribe();
   }, []);
 
-  // Cargar fotos existentes desde Firestore al montar el componente
+ 
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
@@ -84,13 +84,13 @@ const GalleryPage = () => {
         name: file.name,
       });
 
-      // Actualizar el estado de las fotos
+      
       setPhotos(prevPhotos => [
         ...prevPhotos,
         { id: Date.now(), src: downloadURL, alt: file.name } 
       ]);
 
-      // Limpiar estados
+     
       setPreview(null);
       fileInputRef.current.value = null;
       alert('¡Imagen subida con éxito!');
@@ -107,7 +107,7 @@ const GalleryPage = () => {
       <Header />
       <main className="flex-grow p-8">
         <header className="gallery-header mb-6">
-          <h1 className="text-3xl text-[#889e19] font-bold text-left">GALERÍA</h1>
+          <h1 className="text-3xl text-[#889e19] font-bold text-left">Galería</h1>
         </header>
 
         <div

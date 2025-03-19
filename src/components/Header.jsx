@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../contexto/userContext.jsx"; 
-import { getAuth, signOut } from "firebase/auth";
-import { app } from "../credenciales.js"; 
 import logo from "/metroavila.svg";
 import { NavBar } from "./NavBar";
 import Button from "./Button";
@@ -11,11 +9,9 @@ import cruz from "../assets/cruz-icon.png";
 import Menu from "./Menu";
 import profilePlaceholder from "../assets/user-icon.svg"; 
 
-const auth = getAuth(app);
-
 export const Header = () => {
     const navigate = useNavigate();
-    const { user } = useUser(); // info del usuario autenticado
+    const { user } = useUser(); 
     const [isSearchVisible, setSearchVisible] = useState(false);
     
 
@@ -25,11 +21,6 @@ export const Header = () => {
         if (event.key === 'Enter') {
             console.log('Buscar:', event.target.value);
         }
-    };
-
-    const handleLogout = async () => {
-        await signOut(auth);
-        navigate("/");
     };
 
     return (
@@ -68,7 +59,7 @@ export const Header = () => {
                 </div> 
 
                 <div>
-                    <NavBar className={`hidden lg:flex w-[350px] place-content-around text-[16px] font-semibold text-[#1E1E1E] transition-all duration-300 ${
+                    <NavBar className={`hidden lg:flex w-[400px] place-content-around text-[16px] font-semibold text-[#1E1E1E] transition-all duration-300 ${
                         isSearchVisible ? "opacity-0 translate-y-[-20px] pointer-events-none" : "opacity-100 translate-y-0"}`}/>
                 </div>
             </div> 
@@ -76,20 +67,14 @@ export const Header = () => {
             <div className="flex ml-auto space-x-6 items-center mr-20">
                 {user ? (
 
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-3">
                         <img 
                             src={user.photo || profilePlaceholder} 
                             alt="Perfil" 
                             className="w-[40px] h-[40px] rounded-full cursor-pointer border-2 border-[#889E19]" 
                             onClick={() => navigate("/profile")}
                         />
-                        <span className="text-[#1E1E1E] font-semibold">{user.name ? `${user.name} ${user.lastname || ""}` : "Usuario"}</span>
-                        <button 
-                            onClick={handleLogout} 
-                            className=" text-[#889E19] cursor-pointer hover:text-[#6E7D14] px-4 py-2 rounded-lg"
-                        >
-                            Cerrar sesión
-                        </button>
+                        <span className="text-[#1E1E1E] hidden md:flex font-semibold">{user.name ? `${user.name} ${user.lastname || ""}` : "Usuario"}</span>
                     </div>
                 ) : (
                     

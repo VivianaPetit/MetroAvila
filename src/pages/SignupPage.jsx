@@ -165,6 +165,7 @@ function SignupPage() {
                 carrera: carrera,
                 userType: userType,
                 email: email,
+                reservas: []
             };
     
             // Guardar los datos del usuario en Firestore

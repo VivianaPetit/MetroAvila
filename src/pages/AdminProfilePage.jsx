@@ -7,7 +7,7 @@ function AdminProfilePage() {
     return (
         <div>
             <Header />
-            <div style={{ padding: '0 5%', marginTop: '20px', marginBottom: '20px' }}> {/* Adjust the margin values as needed */}
+            <div style={{ padding: '0 5%', marginTop: '20px', marginBottom: '20px' }}> 
                 <Table />
             </div>
             <Footer />
