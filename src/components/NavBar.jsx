@@ -15,6 +15,9 @@ export const NavBar = ({ className }) => {
                     <Link to="/galeria">Galería</Link> 
                 </li>
                 <li>
+                <Link to="/info">Información</Link>
+                </li>
+                <li>
                     <Link to="/foro">Foro</Link>
                 </li>
             </ul>

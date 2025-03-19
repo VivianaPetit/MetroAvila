@@ -15,7 +15,7 @@ const ForumPage = () => {
     const [user, setUser ] = useState(null);
 
     useEffect(() => {
-        AOS.init({ duration: 1500, once: true, easing: 'ease-in-out' });
+        AOS.init({ duration: 1000, once: true, easing: 'ease-in-out' });
     }, []);
 
     useEffect(() => {

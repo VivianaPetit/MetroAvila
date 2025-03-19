@@ -43,7 +43,7 @@ function ProfileInfo() {
                     )}
                 </>
             ) : ( 
-                <div className="font-black text-xl text-center  animate-pulse text-gray-600">
+                <div className="text-xl text-center  animate-pulse text-gray-600">
                     Cargando...
                 </div>
             )}

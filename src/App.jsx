@@ -11,6 +11,7 @@ import ForumPage from "./pages/ForumPage";
 import SuccessfulTransaction from "./components/SuccessfulTransaction.jsx";
 import AdminProfilePage from "./pages/AdminProfilePage";
 import InfoSection from "./pages/InfoSection.jsx";
+import PayConfirmation from "./components/PayConfirmation.jsx";
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
         <Route path="/exitosa" element={<SuccessfulTransaction />} />
         <Route path="/admin" element={<AdminProfilePage />} />
         <Route path="/info" element={<InfoSection />} />
+        <Route path="/confirmation" element={<PayConfirmation />} />
+
 
       </Routes>
     </Router>

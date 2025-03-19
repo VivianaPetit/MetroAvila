@@ -71,7 +71,6 @@ const BookingCalendar = () => {
 
             setMessage("¡Reserva realizada con éxito!");
         } catch (error) {
-            console.error("Error al reservar:", error);
             setMessage("Error al realizar la reserva.");
         }
         setIsLoading(false);
@@ -96,7 +95,7 @@ const BookingCalendar = () => {
             };
     
             // Verificar si el usuario ya tiene un documento en la colección "usuarios"
-            const userRef = doc(db, "usuarios", user.uid);
+            const userRef = doc(db, "usuario", user.uid);
             const userDoc = await getDoc(userRef);
     
             // Si el documento del usuario no existe, crearlo con el campo 'reservas' vacío
@@ -118,7 +117,7 @@ const BookingCalendar = () => {
             // Guardar la reserva en la colección "reservas"
             const docRef = await addDoc(collection(db, "reservas"), reservationData);
             console.log("Reserva registrada con éxito:", reservationData);
-    
+            navigate("/confirmation")
         } catch (error) {
             console.error("Error al registrar la reserva:", error);
         }
@@ -154,7 +153,7 @@ const BookingCalendar = () => {
             </motion.div>
             <div className="text-center mt-4">
                 <p className="text-lg">Fecha seleccionada: <span className="text-[#889e19] font-black">{date.toDateString()}</span></p>
-                {message && <p className="mt-2 text-green-600 font-bold">{message}</p>}
+                {message && <p className="mt-2 text-green-600 font-bold">{message}</p> && setTimeout(() => setMessage(""), 5000)}
 
                 {loading ? (
                     <p className="text-center m-2 text-[16px] text-gray-800 font-semibold animate-pulse">Cargando actividades...</p>
