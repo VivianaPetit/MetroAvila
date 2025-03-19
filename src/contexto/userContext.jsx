@@ -20,18 +20,19 @@ export const UserProvider = ({ children }) => {
                 if (userDoc.exists()) {
                     const userData = userDoc.data();
                     setUser({
+                        id: currentUser.uid,
                         name: userData.nombre, 
                         lastname: userData.apellido, 
                         carrera: userData.carrera,
                         userType: userData.userType,
                         email: currentUser.email, 
-                        photo: userData.foto || currentUser.photoURL, 
+                        photo: currentUser.photoURL, 
                     });
                 } else {
                     
                     setUser({
-                        name: currentUser.displayName || "Usuario",
-                        lastname: "",
+                        id: currentUser.uid,
+                        name: currentUser.displayName || "Unknown",
                         email: currentUser.email,
                         photo: currentUser.photoURL,
                     });
@@ -52,7 +53,7 @@ export const UserProvider = ({ children }) => {
     );
 };
 
-// Hook personalizado para acceder al contexto
+
 export const useUser = () => useContext(UserContext);
 
 

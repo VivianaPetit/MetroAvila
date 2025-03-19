@@ -23,16 +23,16 @@ function ProfileInfo() {
                         {user.name ? `${user.name} ${user.lastname || ""}` : "Usuario"}
                     </h1>
                     <p className="mb-8 text-stone-500">
-                        {user.carrera ? `${user.carrera} ${user.apellido || ""}` : user.email}
+                        {user.userType === "Admin" ? "Administrador" : (user.carrera || user.email)}
                     </p>
 
                     {user.userType === "Admin" ? (
                         <div className="flex gap-5 mb-10 max-md:flex-col">
                             <button
                                 onClick={() => navigate("/admin")}
-                                className="px-10 py-5 text-center bg-orange-100 rounded-xl max-md:w-full max-sm:p-4"
+                                className="px-10 py-5 text-center bg-orange-200 cursor-pointer rounded-xl max-md:w-full max-sm:p-4"
                             >
-                                <h2 className="mb-1.5 text-2xl font-semibold">Administrar Actividades</h2>
+                                <h2 className="mb-1.5 text-xl">Administrar Actividades</h2>
                             </button>
                         </div>
                     ) : (
@@ -42,9 +42,9 @@ function ProfileInfo() {
                         </div>
                     )}
                 </>
-            ) : (
-                <div className="font-extrabold text-4xl text-center text-[#889E19]">
-                    No se encontró un usuario registrado
+            ) : ( 
+                <div className="font-black text-xl text-center  animate-pulse text-gray-600">
+                    Cargando...
                 </div>
             )}
         </>

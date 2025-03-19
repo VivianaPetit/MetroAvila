@@ -101,23 +101,21 @@ function LoginPage() {
                 const userData = userDocSnap.data();
                 console.log("User Data:", userData);
 
-                // Check if the user has the role of "Admin"
                 if (userData.userType === "Admin") {
                     console.log("User is an Admin.");
-                    // Perform actions specific to Admin users
+                    setTimeout(() => navigate("/admin"), 1500);
+                    setSuccess(true);
+                    
                 } else {
                     console.log("User is not an Admin.");
                     setError("Este usuario no es Admin")
-                    // Perform actions for non-Admin users
+                    
                 }
             } else {
                 console.log("No such document!");
                 setError("El correo o la contraseña son incorrectos");
-                return; // Stop further execution
+                return; 
             }
-
-            setSuccess(true);
-            setTimeout(() => navigate("/admin"), 1500);
         } catch (error) {
             setError("Error: Correo o contraseña incorrectos.");
         } finally {

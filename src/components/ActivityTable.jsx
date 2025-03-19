@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import ActivityEditor from "./ActivityEditor.jsx";
 import { getFirestore, collection, doc, updateDoc, onSnapshot } from "firebase/firestore";
 import { app } from "../credenciales";
-
+import editIcon from "../assets/edit.png";
+import Button from "./Button.jsx";
 
 const ActivityTable = () => {
     const [activities, setActivities] = useState([]);
     const [selectedActivity, setSelectedActivity] = useState(null);
+    const [loading, setLoading] = useState(true); 
     const db = getFirestore(app);
 
     useEffect(() => {
+        setLoading(true);
         const activitiesCollection = collection(db, "actividades");
         const unsubscribe = onSnapshot(activitiesCollection, (snapshot) => {
             const activitiesList = snapshot.docs.map((doc) => ({
@@ -17,6 +20,10 @@ const ActivityTable = () => {
                 ...doc.data()
             }));
             setActivities(activitiesList);
+            setLoading(false);
+        }, (error) => {
+            console.error("Error obteniendo actividades:", error);
+            setLoading(false);
         });
 
         return () => unsubscribe();
@@ -30,13 +37,13 @@ const ActivityTable = () => {
         const activityRef = doc(db, "actividades", activity.id);
         try {
             await updateDoc(activityRef, {
-                name: activity.nombre,
-                date: activity.fecha,
-                status: activity.requierePermisos,
+                nombre: activity.nombre,
+                fecha: activity.fecha,
+                disponible: activity.disponible,
             });
             setSelectedActivity(null);
         } catch (error) {
-            console.error("Error updating document: ", error);
+            console.error("Error actualizando la actividad: ", error);
         }
     };
 
@@ -49,26 +56,32 @@ const ActivityTable = () => {
                     <div></div>
                 </div>
 
-                {activities.map((activity) => (
-                    <div
-                        key={activity.id}
-                        className="grid p-2 border-b border-solid border-b-lime-600 grid-cols-[1fr_1fr_50px] text-sm"
-                    >
-                        <p className="text-black">{activity.nombre}</p>
-                        <p className="text-black">{activity.nombreGuia}</p>
-                        <button
-                            className="text-black"
-                            onClick={() => handleEdit(activity)}
-                            aria-label={`Edit ${activity.nombre}`}
+                {loading ? (
+                    <p className="text-center text-md font-semibold text-gray-600 mt-4 mb-4 animate-pulse">
+                        Cargando actividades...
+                    </p>
+                ) : (
+                    activities.map((activity) => (
+                        <div
+                            key={activity.id}
+                            className="grid p-2 border-b border-solid border-b-lime-600 grid-cols-[1fr_1fr_50px] text-sm"
                         >
-                            <img
-                                className="h-4 w-4"
-                                src="../assets/edit.png"
-                                alt="edit"
-                            />
-                        </button>
-                    </div>
-                ))}
+                            <p className="text-black">{activity.nombre}</p>
+                            <p className="text-black">{activity.nombreGuia}</p>
+                            <button
+                                className="text-black"
+                                onClick={() => handleEdit(activity)}
+                                aria-label={`Editar ${activity.nombre}`}
+                            >
+                                <img
+                                    className="h-4 w-4"
+                                    src= {editIcon}
+                                    alt="Editar"
+                                />
+                            </button>
+                        </div>
+                    ))
+                )}
 
                 {selectedActivity && (
                     <ActivityEditor
@@ -79,9 +92,12 @@ const ActivityTable = () => {
                     />
                 )}
             </section>
-            <button onClick={handleEdit} className="mt-4 px-6 py-3 bg-[#889e19] text-white text-lg font-semibold rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-                Agregar actividad
-            </button>
+            <Button 
+                onClick={handleEdit} 
+                text='Agregar actividad'
+                className="mt-4 px-6 py-3 bg-[#889e19] text-white text-lg font-semibold rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+            />
+                
         </>
     );
 };

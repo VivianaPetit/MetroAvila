@@ -9,7 +9,8 @@ import DestinationDetail from "./components/DestinationDetail";
 import GalleryPage from "./pages/GalleryPage";
 import ForumPage from "./pages/ForumPage";
 import SuccessfulTransaction from "./components/SuccessfulTransaction.jsx";
-import AdminProfilePage from "./pages/adminProfilePage";
+import AdminProfilePage from "./pages/AdminProfilePage";
+import InfoSection from "./pages/InfoSection.jsx";
 
 function App() {
   return (
@@ -26,6 +27,8 @@ function App() {
         <Route path="/foro" element={<ForumPage />} />
         <Route path="/exitosa" element={<SuccessfulTransaction />} />
         <Route path="/admin" element={<AdminProfilePage />} />
+        <Route path="/info" element={<InfoSection />} />
+
       </Routes>
     </Router>
   );
