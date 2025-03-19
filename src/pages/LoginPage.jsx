@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from "firebase/auth";
 import SocialAuthButton from "../components/SocialAuthButton";
 import FormInput from "../components/FormInput";
@@ -79,7 +80,50 @@ function LoginPage() {
             setError("Error al autenticar con Google.");
         }
     };
+    const handleAdminLogin = async (e) => {
+        e.preventDefault();
+        setError("");
+        setSuccess(false);
 
+        if (!validateLoginForm()) return;
+
+        setLoading(true);
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            console.log("User ID:", user.uid);// Access the user ID here
+            const db = getFirestore(app);
+            const userDocRef = doc(db, "usuario", user.uid);
+            const userDocSnap = await getDoc(userDocRef);
+            console.log("User ID snap:", userDocSnap);
+
+            if (userDocSnap.exists()) {
+                const userData = userDocSnap.data();
+                console.log("User Data:", userData);
+
+                // Check if the user has the role of "Admin"
+                if (userData.userType === "Admin") {
+                    console.log("User is an Admin.");
+                    // Perform actions specific to Admin users
+                } else {
+                    console.log("User is not an Admin.");
+                    setError("Este usuario no es Admin")
+                    // Perform actions for non-Admin users
+                }
+            } else {
+                console.log("No such document!");
+                setError("El correo o la contraseña son incorrectos");
+                return; // Stop further execution
+            }
+
+            setSuccess(true);
+            setTimeout(() => navigate("/admin"), 1500);
+        } catch (error) {
+            setError("Error: Correo o contraseña incorrectos.");
+        } finally {
+            setLoading(false);
+        }
+    };
     const handleFacebookLogin = async () => {
         const provider = new FacebookAuthProvider();
         try {
@@ -148,8 +192,8 @@ function LoginPage() {
                         </button>
                     </p>
                     <p className="text-black text-sm">
-                        Ir al panel de 
-                        <button className="font-bold text-[#889E19] cursor-pointer hover:text-[#6E7D14] transition-all ml-1">Administración</button>
+                        Ir al panel de
+                        <button onClick={handleAdminLogin} className="font-bold text-[#889E19] cursor-pointer hover:text-[#6E7D14] transition-all ml-1">Administración</button>
                     </p>
                 </div>
             </div>
