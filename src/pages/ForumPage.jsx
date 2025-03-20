@@ -32,7 +32,7 @@ const ForumPage = () => {
     const [rating, setRating] = useState(0); 
     const [destinos, setDestinos] = useState([]); 
     const [selectedDestino, setSelectedDestino] = useState(''); 
-    const [error, setError] = useState(''); // Estado para manejar el error
+    const [error, setError] = useState(''); 
 
     useEffect(() => {
         AOS.init({ duration: 1000, once: true, easing: 'ease-in-out' });
@@ -93,7 +93,7 @@ const ForumPage = () => {
             setNewMessage('');
             setRating(0); 
             setSelectedDestino(''); 
-            setError(''); // Limpiar el error al enviar correctamente
+            setError(''); 
         } catch (error) {
             console.error("Error al enviar el mensaje: ", error);
         }
@@ -129,7 +129,6 @@ const ForumPage = () => {
                             ))}
                         </select>
 
-                        {/* Mostrar mensaje de error si falta el destino */}
                         {error && <p className="text-red-500 mt-2">{error}</p>}
 
                         <button type="submit" className="mt-2 bg-[#889e19] text-white px-6 py-2 rounded-lg shadow hover:bg-[#728115] transition duration-200">
@@ -154,12 +153,10 @@ const ForumPage = () => {
                                 <div>
                                     <strong className="text-[#889e19]">{message.user}:</strong> <span>{message.text}</span>
 
-                                    {/* Mostrar destino visitado si existe */}
                                     {message.destino && (
                                         <p className="text-sm text-gray-600 mt-2"><strong>Destino visitado:</strong> {message.destino}</p>
                                     )}
 
-                                    {/* Mostrar calificación en estrellas */}
                                     <div className="mt-2">
                                         {Array.from({ length: 5 }, (_, index) => (
                                             <span key={index} className={`text-2xl ${index < message.rating ? 'text-yellow-500' : 'text-gray-300'}`}>
