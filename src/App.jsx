@@ -12,6 +12,7 @@ import SuccessfulTransaction from "./components/SuccessfulTransaction.jsx";
 import AdminProfilePage from "./pages/AdminProfilePage";
 import InfoSection from "./pages/InfoSection.jsx";
 import PayConfirmation from "./components/PayConfirmation.jsx";
+import SearchesPage from "./pages/SearchesPage.jsx";
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
         <Route path="/admin" element={<AdminProfilePage />} />
         <Route path="/info" element={<InfoSection />} />
         <Route path="/confirmation" element={<PayConfirmation />} />
-
+        <Route path="/results" element={<SearchesPage />} />
 
       </Routes>
     </Router>

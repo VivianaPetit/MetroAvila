@@ -13,15 +13,33 @@ export const Header = () => {
     const navigate = useNavigate();
     const { user } = useUser(); 
     const [isSearchVisible, setSearchVisible] = useState(false);
-    
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const handleInputChange = (event) => {
+        setSearchQuery(event.target.value);
+    }
 
     const toggleSearch = () => setSearchVisible(!isSearchVisible);
 
     const handleSearch = (event) => {
-        if (event.key === 'Enter') {
-            console.log('Buscar:', event.target.value);
+        if (event.key === "Enter") {
+            const trimmedQuery = searchQuery.trim();
+            if (trimmedQuery.length > 0) {
+                console.log(trimmedQuery);
+                onSearch(trimmedQuery); // Llamar función de búsqueda externa
+                
+            } else {
+                console.log("Ingrese un término de búsqueda válido.");
+            }
         }
+    }
+
+    const onSearch = async (consulta) => {
+        console.log("buscando...");
+    
+        navigate("/results", { state: { consulta: consulta } });
     };
+    
 
     return (
         <header className="sticky top-0 z-50 flex h-[76px] bg-[#F2F5E5] border-t-1 border-[#3333333c] shadow-xl">
@@ -52,6 +70,7 @@ export const Header = () => {
                         type="text"
                         placeholder="Buscar..."
                         onKeyDown={handleSearch}
+                        onChange={handleInputChange}
                         className={`outline-none px-3 py-1 transition-all duration-300 ${
                             isSearchVisible ? "opacity-100 w-[200px]" : "opacity-0 w-0 hidden"
                         }`}

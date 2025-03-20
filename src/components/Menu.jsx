@@ -5,11 +5,12 @@ import Logout from "@mui/icons-material/Logout";
 import DehazeIcon from "@mui/icons-material/Dehaze"; // Ícono de menú hamburguesa
 import Button from "./Button";
 import { NavBar } from "./NavBar";
+import { useUser } from "../contexto/userContext";
 
 export default function AccountMenu() {
+    const { user } = useUser();
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
-    const [user, setUser] = useState(null); 
 
     const open = Boolean(anchorEl);
 
@@ -44,13 +45,7 @@ export default function AccountMenu() {
                     transformOrigin={{ horizontal: "right", vertical: "top" }}
                     anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                 >
-                    {/* Perfil */}
-                    <MenuItem onClick={handleClose}>
-                        <Avatar src={user ? user.photo : ""} className="mr-2">
-                            {!user && "P"}
-                        </Avatar>
-                        {user ? user.name : "Perfil"}
-                    </MenuItem>
+                    
 
                     <Divider />
 

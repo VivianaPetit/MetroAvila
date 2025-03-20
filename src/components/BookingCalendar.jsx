@@ -177,6 +177,7 @@ const registrarReserva = async (activity) => {
                 <p className="text-lg">Fecha seleccionada: <span className="text-[#889e19] font-black">{date.toDateString()}</span></p>
                 {message && <p className="mt-2 text-green-600 font-bold">{message}</p>}
 
+
                 {loading ? (
                     <p className="text-center m-2 text-[16px] text-gray-800 font-semibold animate-pulse">Cargando actividades...</p>
                 ) : activities.length > 0 ? (
@@ -193,11 +194,11 @@ const registrarReserva = async (activity) => {
                             <p><strong>Dificultad:</strong> {activity.dificultad}</p>
                             <p><strong>Duración:</strong> {activity.duracion} horas</p>
                             <p><strong>Cupos disponibles:</strong> {activity.cupos}</p>
-
+                            
                             <Button
                                 onClick={() => handleReservar(activity)}
                                 text={isLoading ? "Reservando..." : "Reservar"}
-                                disabled={isLoading || !activity.disponible || activity.cupos === 0}
+                                disabled = {isLoading || !activity.disponible || activity.cupos === 0}
                                 className="mt-4 px-6 py-2 font-bold rounded-2xl bg-[#889e19] hover:bg-[#6E7D14] text-white"
                             />
                         </motion.div>

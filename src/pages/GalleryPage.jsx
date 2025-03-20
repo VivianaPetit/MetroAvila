@@ -1,11 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
-import { storage, db, auth } from '../credenciales'; 
-import { onAuthStateChanged } from 'firebase/auth'; 
+import { storage, db, auth } from '../credenciales';
+import { onAuthStateChanged } from 'firebase/auth';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import './GalleryPage';
+import AOS from 'aos'; // Importamos AOS
+import 'aos/dist/aos.css'; // Estilo de AOS
 
 const GalleryPage = () => {
   const fileInputRef = useRef(null);
@@ -22,7 +24,6 @@ const GalleryPage = () => {
     return () => unsubscribe();
   }, []);
 
- 
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
@@ -38,6 +39,9 @@ const GalleryPage = () => {
       }
     };
     fetchPhotos();
+
+    // Inicializamos AOS cuando el componente se monta
+    AOS.init();
   }, []);
 
   // Manejar el clic en el botón para abrir el selector de archivos
@@ -84,13 +88,11 @@ const GalleryPage = () => {
         name: file.name,
       });
 
-      
       setPhotos(prevPhotos => [
         ...prevPhotos,
         { id: Date.now(), src: downloadURL, alt: file.name } 
       ]);
 
-     
       setPreview(null);
       fileInputRef.current.value = null;
       alert('¡Imagen subida con éxito!');
@@ -107,12 +109,15 @@ const GalleryPage = () => {
       <Header />
       <main className="flex-grow p-8">
         <header className="gallery-header mb-6">
-          <h1 className="text-3xl text-[#889e19] font-bold text-left">Galería</h1>
+          <h1 className="text-3xl text-[#889e19] font-bold text-left" data-aos="fade-up">
+            Galería
+          </h1>
         </header>
 
         <div
           className="flex items-center justify-center bg-[#d9e4b1] rounded-lg shadow-md cursor-pointer hover:bg-[#c8d49a] transition-colors py-[1rem] w-[24rem] my-[1rem]"
           onClick={handleClick}
+          data-aos="zoom-in"
         >
           <span className="text-[#889e19] text-xl font-bold">
             + &nbsp; Agrega tu foto!
@@ -128,7 +133,7 @@ const GalleryPage = () => {
         />
 
         {preview && (
-          <div className="flex flex-col items-center my-4">
+          <div className="flex flex-col items-center my-4" data-aos="fade-up">
             <img src={preview} alt="Preview" className="w-64 h-64 object-cover rounded-lg shadow-md mb-4" />
             <button
               onClick={handleUpload}
@@ -142,7 +147,7 @@ const GalleryPage = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
           {photos.map((photo) => (
-            <div key={photo.id} className="relative group">
+            <div key={photo.id} className="relative group" data-aos="fade-up">
               <img
                 src={photo.src}
                 alt={photo.alt}

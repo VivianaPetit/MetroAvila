@@ -1,16 +1,17 @@
 import React from "react";
 
-function Button({divClassName, className, text, onClick, type, disable} ) {
+function Button({divClassName, className, text, onClick, type, disabled} ) {
   return (
     <div className={divClassName}>
       <button
         className={className}
         type={type}
         onClick={onClick}
-        disabled={disable}
+        disabled={disabled}
       >
         {text}
       </button>
+      {console.log("Button disabled:", disabled)}
     </div>
   );
 }
