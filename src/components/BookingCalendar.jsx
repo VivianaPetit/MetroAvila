@@ -63,6 +63,7 @@ const BookingCalendar = () => {
     };
 
     const handleReservar = async (activity) => {
+        console.log(activity.cupos);
         if (!user) {
             setTimeout(() => {
                 navigate("/login");
@@ -71,6 +72,7 @@ const BookingCalendar = () => {
         }
 
         if (!activity.disponible || activity.cupos === 0) {
+            
             setMessage("No hay cupos disponibles para esta actividad.");
             setTimeout(() => setMessage(""), 5000);
             return;
@@ -98,39 +100,43 @@ const BookingCalendar = () => {
         setIsLoading(false);
     };
 
-    const registrarReserva = async (activity) => {
-        try {
-            if (!user || !user.uid) {
-                console.error("Usuario no autenticado.");
-                return;
-            }
+    
 
-            const reservationData = {
-                usuarioId: user.uid,
-                actividadId: activity.id,
-                nombreActividad: activity.nombre,
-                fechaReserva: new Date().toISOString().split("T")[0],
-                fechaActividad: activity.fecha?.toDate().toISOString().split("T")[0] || null, 
-                destino: activity.destino,
-            };
+const registrarReserva = async (activity) => {
+    try {
+        
 
-            const userRef = doc(db, "usuario", user.uid);
-            const userDoc = await getDoc(userRef);
+        const reservationData = {
+            usuario: user,
+            actividad: activity,
+            nombreActividad: activity.nombre,
+            fecha: new Date(),
+            fechaActividad: activity.fecha || null, 
+            destino: activity.destino,
+        };
 
-            if (!userDoc.exists()) {
-                await setDoc(userRef, { reservas: [reservationData] });
-            } else {
-                await setDoc(userRef, {
-                    reservas: arrayUnion(reservationData)
-                }, { merge: true });
-            }
+        const userRef = doc(db, "usuario", user.id);
+        const userDoc = await getDoc(userRef);
 
-            await addDoc(collection(db, "reservas"), reservationData);
-            navigate("/confirmation");
-        } catch (error) {
-            console.error("Error al registrar la reserva:", error);
+        if (!userDoc.exists()) {
+            // Si el usuario no existe, crea el documento con el array de reservas
+            await setDoc(userRef, { reservas: [reservationData] });
+        } else {
+            // Si el usuario existe, usa updateDoc en lugar de setDoc
+            await updateDoc(userRef, {
+                reservas: arrayUnion(reservationData) // Usa updateDoc con arrayUnion
+            });
         }
-    };
+
+        // Guardar la reserva en la colección general de reservas
+        await addDoc(collection(db, "reservas"), reservationData);
+
+        navigate("/confirmation");
+    } catch (error) {
+        console.error("Error al registrar la reserva:", error);
+    }
+};
+
 
     useEffect(() => {
         const obtenerNombreDestino = async () => {
