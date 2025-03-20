@@ -139,7 +139,7 @@ function LoginPage() {
     };
 
     return (
-        <div className="flex min-h-screen bg-right-top" style={{ backgroundImage: `url(${banner2})` }}>
+        <div className="flex min-h-screen items-center justify-center bg-cover bg-center" style={{ backgroundImage: `url(${banner2})` }}>
             <div className="w-full max-w-md flex flex-col items-center justify-center p-6 bg-[#F2F5E5] mx-auto rounded-lg shadow-lg">
                 <h1 className="text-2xl lg:text-4xl font-extrabold mb-1 text-[#889e19] text-center">
                     Inicio de Sesión
@@ -148,7 +148,7 @@ function LoginPage() {
                     Inicia Sesión con:
                 </h2>
 
-                <div className="flex justify-center gap-4 mb-8 flex-wrap">
+                <div className="flex justify-center gap-4 mb-4 w-full">
                     <SocialAuthButton image={google} altText="Google" onClick={handleGoogleLogin} />
                     <SocialAuthButton image={instagram} altText="Instagram" onClick={handleInstagramLogin} />
                     <SocialAuthButton image={facebook} altText="Facebook" onClick={handleFacebookLogin} />

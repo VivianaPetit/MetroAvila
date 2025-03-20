@@ -180,25 +180,25 @@ function SignupPage() {
     
 
     return (
-        <div className="flex min-h-screen bg-right-top" style={{ backgroundImage: `url(${banner2})` }}>
-            <div className="w-full max-w-md flex flex-col items-center justify-center p-6 bg-[#F2F5E5] mx-auto rounded-lg shadow-lg">
+        <div className="flex min-h-screen items-center justify-center bg-cover bg-center" style={{ backgroundImage: `url(${banner2})` }}>
+            <div className="w-full max-w-xl mx-4 p-8 bg-[#F2F5E5] rounded-lg shadow-lg my-24">
                 <h1 className="text-2xl lg:text-4xl font-extrabold mb-1 text-[#889e19]">Registro</h1>
-                <h2 className="text-lg lg:text-xl text-black mb-4">Regístrate con:</h2>
+                <h2 className="text-base lg:text-lg text-black mb-2">Regístrate con:</h2>
 
-                <div className="flex justify-center gap-4 mb-8 flex-wrap">
+                <div className="flex justify-center gap-4 mb-4 w-full">
                     <SocialAuthButton image={google} altText="Google" onClick={handleGoogleSignup} />
                     <SocialAuthButton image={instagram} altText="Instagram" onClick={handleInstagramSignup} />
                     <SocialAuthButton image={facebook} altText="Facebook" onClick={handleFacebookSignup} />
                 </div>
 
-                <img src={divider} alt="Separador" className="mb-5 w-full" />
-                {message && <p className="text-center text-green-600 font-bold mb-4">{message}</p>} 
-                {error && <p className="text-center text-red-600 font-bold mb-4">{error}</p>} 
+                <img src={divider} alt="Separador" className="mb-4 w-full" />
+                {message && <p className="text-center text-green-600 font-bold mb-3">{message}</p>} 
+                {error && <p className="text-center text-red-600 font-bold mb-3">{error}</p>} 
 
-                <form onSubmit={handleSignup}>
-                    <div className="flex flex-col w-full gap-4 mb-5">
+                <form onSubmit={handleSignup} className="w-full">
+                    <div className="flex flex-col gap-1 mb-1">
                         <div>
-                            <label className="text-lg font-black text-[#889E19] mb-2">Nombre</label>
+                            <label className="text-base font-black text-[#889E19] mb-1">Nombre</label>
                             <FormInput
                                 label="Nombre"
                                 type="text"
@@ -206,10 +206,10 @@ function SignupPage() {
                                 onChange={(e) => setName(e.target.value)}
                                 texto="Ingresa tu nombre"
                             />
-                            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                            {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
                         </div>
                         <div>
-                            <label className="text-lg font-black text-[#889E19] mb-2">Apellido</label>
+                            <label className="text-base font-black text-[#889E19] mb-1">Apellido</label>
                             <FormInput
                                 label="Apellido"
                                 type="text"
@@ -220,7 +220,7 @@ function SignupPage() {
                             {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
                         </div>
                         <div>
-                            <label className="text-lg font-black text-[#889E19] mb-2">Número de Carnet</label>
+                            <label className="text-base font-black text-[#889E19] mb-1">Número de Carnet</label>
                             <FormInput
                                 label="Carnet"
                                 type="text"
@@ -232,8 +232,8 @@ function SignupPage() {
                         </div>
                     </div>
 
-                    <div className="w-full mb-5">
-                        <label className="text-lg font-black text-[#889E19] mb-2">Carrera</label>
+                    <div className="mb-2">
+                        <label className="text-base font-black text-[#889E19] mb-1">Carrera</label>
                         <FormInput
                             label="Carrera"
                             type="text"
@@ -244,8 +244,8 @@ function SignupPage() {
                         {errors.carrera && <p className="text-red-500 text-sm mt-1">{errors.carrera}</p>}
                     </div>
 
-                    <div className="w-full mb-5">
-                        <label className="text-lg font-black text-[#889E19] mb-2">Email</label>
+                    <div className="mb-2">
+                        <label className="text-base font-black text-[#889E19] mb-1">Email</label>
                         <FormInput
                             label="Email"
                             type="email"
@@ -256,8 +256,8 @@ function SignupPage() {
                         {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                     </div>
 
-                    <div className="w-full mb-5">
-                        <label className="text-lg font-black text-[#889E19] mb-2">Contraseña</label>
+                    <div className="mb-2">
+                        <label className="text-base font-black text-[#889E19] mb-1">Contraseña</label>
                         <FormInput
                             label="Contraseña"
                             type="password"
@@ -266,8 +266,8 @@ function SignupPage() {
                             texto="Ingresa tu contraseña"
                         />
                     </div>
-                        <label className="text-lg font-black text-[#889E19] mb-2">¿Eres Estudiante o Guía?</label>
-                            <div className="flex-1">
+                        <label className="text-base font-black text-[#889E19] mb-1">¿Eres Estudiante o Guía?</label>
+                            <div className="flex-1 mb-2 mt-2">
                                 <Dropdown
                                     options={userOptions}
                                     selectedOption={userType}
@@ -275,10 +275,10 @@ function SignupPage() {
                                 />
                                 {errors.userType && <p className="text-red-500 text-sm mt-1">{errors.userType}</p>}
                             </div>
-                            <div className="m-7 place-items-center">
+                            <div className="mb-2 mt-4">
                                 <Button
                                     className="bg-[#889e19] hover:bg-[#6E7D14] text-white font-extrabold rounded-3xl border border-gray-300 
-                                                w-full lg:w-[226px] h-[48px]"
+                                                w-full h-12"
                                     text="Registrarse"
                                     type="submit"
                                 />
@@ -287,7 +287,7 @@ function SignupPage() {
                 
 
             {/* Enlace para iniciar sesión */}
-            <p className="lg:text-[16px] md:text-[15px] text-[14px] text-black">
+            <p className="text-sm text-black">
                 ¿Ya tienes una cuenta?
                 <button
                     onClick={() => navigate("/login")}
