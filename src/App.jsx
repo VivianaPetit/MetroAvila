@@ -13,6 +13,7 @@ import AdminProfilePage from "./pages/AdminProfilePage";
 import InfoSection from "./pages/InfoSection.jsx";
 import PayConfirmation from "./components/PayConfirmation.jsx";
 import SearchesPage from "./pages/SearchesPage.jsx";
+import GuideProfilePage from "./pages/GuideProfilePage.jsx";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/info" element={<InfoSection />} />
         <Route path="/confirmation" element={<PayConfirmation />} />
         <Route path="/results" element={<SearchesPage />} />
+        <Route path="/perfil-guia" element={<GuideProfilePage />} />
 
       </Routes>
     </Router>

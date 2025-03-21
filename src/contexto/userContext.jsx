@@ -35,6 +35,7 @@ export const UserProvider = ({ children }) => {
                         name: currentUser.displayName || "Unknown",
                         email: currentUser.email,
                         photo: currentUser.photoURL,
+                        userType: "No registrado",
                     });
                 }
             } else {

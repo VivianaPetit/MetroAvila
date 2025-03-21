@@ -19,11 +19,21 @@ function ProfileInfo() {
                             className="object-cover size-full"
                         />
                     </div>
-                    <h1 className="mb-2.5 text-2xl font-semibold">
+                    <h1 className="mb-3 text-2xl font-semibold">
                         {user.name ? `${user.name} ${user.lastname || ""}` : "Usuario"}
                     </h1>
+
+                    <p className="mb-4 text-stone-500">
+                        {user.email || "Sin correo especificado"}
+                    </p>
+
                     <p className="mb-8 text-stone-500">
-                        {user.userType === "Admin" ? "Administrador" : (user.carrera || user.email)}
+                        {user.userType === "Admin"
+                            ? `Administrador`
+                            : user.userType === "Estudiante"
+                            ? `Estudiante - ${user.carrera || "Sin carrera especificada"}`
+                            : `Guía - ${user.carrera || "Sin carrera especificada"}`
+                        }
                     </p>
 
                     {user.userType === "Admin" ? (
