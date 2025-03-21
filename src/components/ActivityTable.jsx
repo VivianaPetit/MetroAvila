@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import ActivityEditor from "./ActivityEditor.jsx";
-import { getFirestore, collection, doc, updateDoc, onSnapshot } from "firebase/firestore";
+import { getFirestore, collection, doc, deleteDoc, updateDoc, onSnapshot, addDoc, serverTimestamp } from "firebase/firestore";
 import { app } from "../credenciales";
-import editIcon from "../assets/edit.png";
-import Button from "./Button.jsx";
+import editIcon from '../assets/edit.png';
 
-const ActivityTable = ({ isGuide = false }) => {
+
+const ActivityTable = () => {
     const [activities, setActivities] = useState([]);
     const [selectedActivity, setSelectedActivity] = useState(null);
-    const [loading, setLoading] = useState(true); 
     const db = getFirestore(app);
 
     useEffect(() => {
-        setLoading(true);
         const activitiesCollection = collection(db, "actividades");
         const unsubscribe = onSnapshot(activitiesCollection, (snapshot) => {
             const activitiesList = snapshot.docs.map((doc) => ({
@@ -20,10 +18,6 @@ const ActivityTable = ({ isGuide = false }) => {
                 ...doc.data()
             }));
             setActivities(activitiesList);
-            setLoading(false);
-        }, (error) => {
-            console.error("Error obteniendo actividades:", error);
-            setLoading(false);
         });
 
         return () => unsubscribe();
@@ -36,14 +30,68 @@ const ActivityTable = ({ isGuide = false }) => {
     const handleSave = async (activity) => {
         const activityRef = doc(db, "actividades", activity.id);
         try {
+            console.log("Save")
+            console.log(activity.nombre)
+            console.log(activity.guia)
             await updateDoc(activityRef, {
+
                 nombre: activity.nombre,
+                descripcion: activity.descripcion,
+                guia: activity.guia,
+                nombreGuia: activity.nombreGuia,
+                destino: activity.destino,
                 fecha: activity.fecha,
+                dificultad: activity.dificultad,
+                requierePermisos: activity.requierePermisos,
+                requiereEquipo: activity.requiereEquipo,
+                tipoActividad: activity.tipoActividad,
+                duracion: activity.duracion,
+                cupos: activity.cupos,
                 disponible: activity.disponible,
+
             });
             setSelectedActivity(null);
         } catch (error) {
-            console.error("Error actualizando la actividad: ", error);
+            console.error("Error updating document: ", error);
+        }
+    };
+
+    const handleDelete = async (activity) => {
+        const activityRef = doc(db, "actividades", activity.id);
+        try {
+            await deleteDoc(activityRef);
+            console.log("Document successfully deleted!");
+            setSelectedActivity(null);
+        } catch (e) {
+            console.error("Error deleting document: ", e);
+        }
+
+
+    };
+
+    const createEmptyActivityDocument = async () => {
+        const activitiesCollection = collection(db, "actividades");
+
+        const newActivity = {
+            nombre: "Nueva actividad",
+            descripcion: "",
+            guia: "",
+            destino: "",
+            nombreGuia: "",
+            fecha: serverTimestamp(),
+            dificultad: "",
+            requierePermisos: false,
+            requiereEquipo: false,
+            tipoActividad: "",
+            duracion: 0,
+            cupos: 0,
+            disponible: 0
+        };
+
+        try {
+            await addDoc(activitiesCollection, newActivity);
+        } catch (e) {
+            console.error("Error adding document: ", e);
         }
     };
 
@@ -56,54 +104,43 @@ const ActivityTable = ({ isGuide = false }) => {
                     <div></div>
                 </div>
 
-                {loading ? (
-                    <p className="text-center text-md font-semibold text-gray-600 mt-4 mb-4 animate-pulse">
-                        Cargando actividades...
-                    </p>
-                ) : (
-                    activities.map((activity) => (
-                        <div
-                            key={activity.id}
-                            className="grid p-2 border-b border-solid border-b-lime-600 grid-cols-[1fr_1fr_50px] text-sm"
+                {activities.map((activity) => (
+                    <div
+                        key={activity.id}
+                        className="grid p-2 border-b border-solid border-b-lime-600 grid-cols-[1fr_1fr_50px] text-sm"
+                    >
+                        <p className="text-black">{activity.nombre}</p>
+                        <p className="text-black">{activity.nombreGuia}</p>
+                        <button
+                            className="text-black"
+                            onClick={() => handleEdit(activity)}
+                            aria-label={`Edit ${activity.nombre}`}
                         >
-                            <p className="text-black">{activity.nombre}</p>
-                            <p className="text-black">{activity.nombreGuia}</p>
-                            <button
-                                className="text-black"
-                                onClick={() => {
-                                    if (!isGuide) {
-                                      handleEdit(activity);
-                                    }
-                                }}
-                                aria-label={`Editar ${activity.nombre}`}
-                            >
-                                <img
-                                    className="h-4 w-4"
-                                    src= {editIcon}
-                                    alt="Editar"
-                                />
-                            </button>
-                        </div>
-                    ))
-                )}
+                            <img
+                                className="h-4 w-4"
+                                src={editIcon}
+                                alt="edit"
+                            />
+                        </button>
+                    </div>
+                ))}
 
-                {selectedActivity && (
-                    <ActivityEditor
-                        isOpen={true}
-                        onClose={() => setSelectedActivity(null)}
-                        onSave={handleSave}
-                        initialActivity={selectedActivity}
-                    />
-                )}
+
             </section>
-            {!isGuide && ( // Solo muestra el botón si no es guía
-                <Button 
-                    onClick={handleEdit} 
-                    text='Agregar actividad'
-                    className="mt-4 px-6 py-3 bg-[#889e19] text-white text-lg font-semibold rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+            <button onClick={createEmptyActivityDocument} className="mt-4 px-6 py-3 bg-[#889e19] text-white text-lg font-semibold rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                Agregar actividad
+            </button>
+
+            {selectedActivity && (
+                <ActivityEditor
+                    isOpen={true}
+                    onClose={() => setSelectedActivity(null)}
+                    onSave={handleSave}
+                    onDelete={handleDelete}
+                    initialActivity={selectedActivity}
                 />
             )}
-                
+
         </>
     );
 };
