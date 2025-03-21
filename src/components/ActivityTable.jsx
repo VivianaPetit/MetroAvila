@@ -5,7 +5,7 @@ import { app } from "../credenciales";
 import editIcon from "../assets/edit.png";
 import Button from "./Button.jsx";
 
-const ActivityTable = () => {
+const ActivityTable = ({ isGuide = false }) => {
     const [activities, setActivities] = useState([]);
     const [selectedActivity, setSelectedActivity] = useState(null);
     const [loading, setLoading] = useState(true); 
@@ -70,7 +70,11 @@ const ActivityTable = () => {
                             <p className="text-black">{activity.nombreGuia}</p>
                             <button
                                 className="text-black"
-                                onClick={() => handleEdit(activity)}
+                                onClick={() => {
+                                    if (!isGuide) {
+                                      handleEdit(activity);
+                                    }
+                                }}
                                 aria-label={`Editar ${activity.nombre}`}
                             >
                                 <img
@@ -92,11 +96,13 @@ const ActivityTable = () => {
                     />
                 )}
             </section>
-            <Button 
-                onClick={handleEdit} 
-                text='Agregar actividad'
-                className="mt-4 px-6 py-3 bg-[#889e19] text-white text-lg font-semibold rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-            />
+            {!isGuide && ( // Solo muestra el botón si no es guía
+                <Button 
+                    onClick={handleEdit} 
+                    text='Agregar actividad'
+                    className="mt-4 px-6 py-3 bg-[#889e19] text-white text-lg font-semibold rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+                />
+            )}
                 
         </>
     );

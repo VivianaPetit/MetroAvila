@@ -91,7 +91,13 @@ export const Header = () => {
                             src={user.photo || profilePlaceholder} 
                             alt="Perfil" 
                             className="w-[40px] h-[40px] rounded-full cursor-pointer border-2 border-[#889E19]" 
-                            onClick={() => navigate("/profile")}
+                            onClick={() => {
+                                if (user.userType === "Guía") {
+                                  navigate("/perfil-guia");
+                                } else {
+                                  navigate("/profile");
+                                }
+                            }}
                         />
                         <span className="text-[#1E1E1E] hidden md:flex font-semibold">{user.name ? `${user.name} ${user.lastname || ""}` : "Usuario"}</span>
                     </div>

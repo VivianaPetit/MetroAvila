@@ -6,7 +6,7 @@ import Button from "../components/Button.jsx";
 import { getAuth, signOut } from "firebase/auth";
 import { app } from "../credenciales";
 import { useNavigate } from "react-router-dom";
-import ActivityTable from "../components/ActivityTable.jsx";
+import Table from "../components/ActivityTable.jsx";
 import PhotoGallery from "../components/PhotoGallery";
 
 function GuideProfilePage() {
@@ -29,8 +29,8 @@ function GuideProfilePage() {
         <ProfileInfo />
         
         <div className="w-full max-w-4xl mt-8 mb-8">
-          <h2 className="text-2xl font-bold text-[#889E19] mb-4">Mis Actividades Programadas</h2>
-          <ActivityTable isGuide={true} />
+          <h2 className="text-2xl font-bold text-[#889E19] mb-4">Actividades Programadas</h2>
+          <Table isGuide={true} />
         </div>
 
         <div className="w-full max-w-4xl mt-8 mb-8">

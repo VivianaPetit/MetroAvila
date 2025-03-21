@@ -32,8 +32,9 @@ function ProfileInfo() {
                             ? `Administrador`
                             : user.userType === "Estudiante"
                             ? `Estudiante - ${user.carrera || "Sin carrera especificada"}`
-                            : `Guía - ${user.carrera || "Sin carrera especificada"}`
-                        }
+                            : user.userType === "Guía"
+                            ? `Guía - ${user.carrera || "Sin carrera especificada"}`
+                            : "Visitante"}
                     </p>
 
                     {user.userType === "Admin" ? (

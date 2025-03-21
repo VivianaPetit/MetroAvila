@@ -8,7 +8,7 @@ function AdminProfilePage() {
         <div>
             <Header />
             <div style={{ padding: '0 5%', marginTop: '20px', marginBottom: '20px' }}> 
-                <Table />
+                <Table isGuide = {false} />
             </div>
             <Footer />
         </div>
