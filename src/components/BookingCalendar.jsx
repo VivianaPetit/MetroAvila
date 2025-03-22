@@ -91,7 +91,6 @@ const BookingCalendar = () => {
                 )
             );
 
-            setMessage("¡Reserva realizada con éxito!");
             setTimeout(() => setMessage(""), 5000);
         } catch (error) {
             setMessage("Error al realizar la reserva.");
@@ -117,10 +116,16 @@ const registrarReserva = async (activity) => {
 
         const userRef = doc(db, "usuario", user.id);
         const userDoc = await getDoc(userRef);
-
+        console.log(!userDoc.exists());
         if (!userDoc.exists()) {
             // Si el usuario no existe, crea el documento con el array de reservas
-            await setDoc(userRef, { reservas: [reservationData] });
+            setDoc(userRef, {
+                nombre: user.name || "Unknown",
+                email: user.email,
+                photo: user.photo || "",
+                userType: "Estudiante",
+                reservas: [reservationData] 
+            });
         } else {
             // Si el usuario existe, usa updateDoc en lugar de setDoc
             await updateDoc(userRef, {
@@ -194,12 +199,14 @@ const registrarReserva = async (activity) => {
                             <p><strong>Dificultad:</strong> {activity.dificultad}</p>
                             <p><strong>Duración:</strong> {activity.duracion} horas</p>
                             <p><strong>Cupos disponibles:</strong> {activity.cupos}</p>
+
                             
                             <Button
-                                onClick={() => handleReservar(activity)}
+                                onClick={() => !isLoading && activity.disponible && activity.cupos > 0 && handleReservar(activity)}
                                 text={isLoading ? "Reservando..." : "Reservar"}
-                                disabled = {isLoading || !activity.disponible || activity.cupos === 0}
-                                className="mt-4 px-6 py-2 font-bold rounded-2xl bg-[#889e19] hover:bg-[#6E7D14] text-white"
+                                className={`mt-4 px-6 py-2 font-bold rounded-2xl text-white 
+                                    ${isLoading || !activity.disponible || activity.cupos === 0 ? 
+                                    "bg-gray-400 cursor-not-allowed" : "bg-[#889e19] hover:bg-[#6E7D14]"}`}
                             />
                         </motion.div>
                     ))
