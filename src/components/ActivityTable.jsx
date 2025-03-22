@@ -85,7 +85,7 @@ const ActivityTable = () => {
             tipoActividad: "",
             duracion: 0,
             cupos: 0,
-            disponible: 0
+            disponible: false
         };
 
         try {

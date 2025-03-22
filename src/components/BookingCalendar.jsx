@@ -196,7 +196,7 @@ const registrarReserva = async (activity) => {
                             transition={{ duration: 0.3 }}
                         >
                             <h3 className="text-xl font-bold text-gray-800">{activity.nombre}</h3>
-                            <p><strong>Destino:</strong> {destinos[activity.id] || "Cargando..."}</p>
+                            <p><strong>Destino:</strong> {activity.destino || "Cargando..."}</p>
                             <p><strong>Dificultad:</strong> {activity.dificultad}</p>
                             <p><strong>Duración:</strong> {activity.duracion} horas</p>
                             <p><strong>Cupos disponibles:</strong> {activity.cupos}</p>

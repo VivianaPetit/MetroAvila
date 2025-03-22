@@ -72,14 +72,6 @@ export default function AccountMenu() {
                             </MenuItem>
                         </>
                     )}
-
-                    {/* Si el usuario está logueado, muestra la opción de Logout */}
-                    {user && (
-                        <MenuItem onClick={handleLogout}>
-                            <Logout fontSize="small" className="mr-2" />
-                            Logout
-                        </MenuItem>
-                    )}
                 </Menu>
             </div>
 

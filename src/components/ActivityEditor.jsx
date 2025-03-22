@@ -233,6 +233,7 @@ const EditActivityModal = ({ isOpen, onClose, onSave, onDelete, initialActivity 
                             value={activity.destino || 'default'}
                             onChange={(e) => {
                                 const selectedDestinoId = e.target.value;
+                                const destinoRef = `/destino/${e.target.value}`;
                                 const selectedDestino = destinos.find(destino => destino.id === selectedDestinoId);
 
                                 if (selectedDestino) {
