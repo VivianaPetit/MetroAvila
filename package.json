@@ -17,6 +17,7 @@
     "@mui/icons-material": "^6.4.7",
     "@mui/material": "^6.4.7",
     "@paypal/react-paypal-js": "^8.8.2",
+    "@supabase/supabase-js": "^2.49.1",
     "@tailwindcss/vite": "^4.0.9",
     "aos": "^2.3.4",
     "date-fns": "^4.1.0",
