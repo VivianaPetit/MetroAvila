@@ -151,8 +151,7 @@ const EditActivityModal = ({ isOpen, onClose, onSave, onDelete, initialActivity 
 
                     <label className="block mb-2">
                         Disponible:
-                        <input
-                            type="text"
+                        <select
                             value={activity.disponible}
                             onChange={(e) => setActivity({ ...activity, disponible: e.target.value })}
                             style={{
@@ -164,28 +163,30 @@ const EditActivityModal = ({ isOpen, onClose, onSave, onDelete, initialActivity 
                                 border: '2px solid #889E19',
                                 backgroundColor: '#E8EDD1'
                             }}
-                            placeholder={activity.disponible}
-                            required
-                        />
+                        >
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                        </select>
                     </label>
 
                     <label className="block mb-2">
                         Fecha:
                         <input
-                            type="text"
+                            type="date" // Tipo "date" para mostrar un calendario
                             value={activity.fecha}
-                            onChange={(e) => setActivity({ ...activity, fecha: e.target.value })}
+                            onChange={(e) => setActivity({ ...activity, fecha: new Date(e.target.value) })}
                             style={{
-                                padding: '0.5rem',
-                                width: '100%',
-                                fontSize: '1rem',
-                                color: '#889E19',
-                                borderRadius: '0.25rem',
-                                border: '2px solid #889E19',
-                                backgroundColor: '#E8EDD1'
+                            padding: '0.5rem',
+                            width: '100%',
+                            fontSize: '1rem',
+                            color: '#889E19',
+                            borderRadius: '0.25rem',
+                            border: '2px solid #889E19',
+                            backgroundColor: '#E8EDD1'
                             }}
                         />
                     </label>
+
                     <label className="block mb-2">
                         Requiere permisos:
                         <select

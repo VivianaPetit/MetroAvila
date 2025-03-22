@@ -91,6 +91,7 @@ const BookingCalendar = () => {
                 )
             );
 
+
             setTimeout(() => setMessage(""), 5000);
         } catch (error) {
             setMessage("Error al realizar la reserva.");
