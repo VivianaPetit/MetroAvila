@@ -92,7 +92,8 @@ const BookingCalendar = () => {
             );
 
 
-            setTimeout(() => setMessage(""), 5000);
+            setTimeout(() => setMessage("Reserva Exitosa"), 5000);
+            navigate("/confirmation");
         } catch (error) {
             setMessage("Error al realizar la reserva.");
             setTimeout(() => setMessage(""), 5000);
@@ -128,6 +129,7 @@ const registrarReserva = async (activity) => {
                 reservas: [reservationData] 
             });
         } else {
+            console.log(reservationData);
             // Si el usuario existe, usa updateDoc en lugar de setDoc
             await updateDoc(userRef, {
                 reservas: arrayUnion(reservationData) // Usa updateDoc con arrayUnion

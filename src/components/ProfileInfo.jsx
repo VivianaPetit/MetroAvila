@@ -92,7 +92,7 @@ function ProfileInfo() {
                         </div>
                     ) : (
                         <div className="flex gap-5 mb-10 max-md:flex-col">
-                            <StatCard title={`${rutasRealizadas}`} description="Rutas Realizadas" />
+                            <StatCard title={`${rutasRealizadas}`} description="Rutas Agendadas" />
                             <StatCard title={`${horasDeActividad} hrs`} description="Horas de Actividad" />
                         </div>
                     )}

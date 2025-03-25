@@ -25,11 +25,11 @@ export const UserProvider = ({ children }) => {
                         const userData = userDoc.data();
                         setUser({
                             id: currentUser.uid,
-                            name: userData.nombre, 
-                            lastname: userData.apellido, 
-                            carrera: userData.carrera,
-                            userType: userData.userType,
-                            email: currentUser.email, 
+                            name: userData.nombre || "",
+                            lastname: userData.apellido || "",
+                            carrera: userData.carrera || "",
+                            userType: userData.userType || "",
+                            email: currentUser.email,
                             photo: currentUser.photoURL, 
                         });
                     } else {
